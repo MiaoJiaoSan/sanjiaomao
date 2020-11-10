@@ -1,6 +1,7 @@
 package xyz.sanjiaomao.user.infrastructure.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  private UserDetailsService userDetailsService;
+  @Qualifier("JWTHelper")
+  private UserDetailsService JWTHelper;
 
   @Override
   @Bean
@@ -67,14 +69,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
-  @Bean
-  public static DelegatingPasswordEncoder delegatingPasswordEncoder() {
-    return (DelegatingPasswordEncoder) PasswordEncoderFactories.createDelegatingPasswordEncoder();
-  }
-
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    auth.userDetailsService(JWTHelper).passwordEncoder(passwordEncoder());
   }
 }

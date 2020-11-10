@@ -12,7 +12,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.BaseClientDetails;
+import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -20,6 +23,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootConfiguration
 @EnableAuthorizationServer
@@ -30,10 +35,9 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   private AuthenticationManager authenticationManager;
 
   @Autowired
-  private UserDetailsService userDetailsService;
+  @Qualifier("JWTHelper")
+  private UserDetailsService JWTHelper;
 
-  @Autowired
-  private DataSource dataSource;
 
   /**
    * 存储客户端信息
@@ -41,7 +45,16 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
    */
   @Bean
   public ClientDetailsService clientDetailsService() {
-    return new JdbcClientDetailsService(dataSource);
+    InMemoryClientDetailsService inMemoryClientDetailsService = new InMemoryClientDetailsService();
+    Map<String, ClientDetails> clients = new HashMap<>(1);
+    BaseClientDetails clientDetails = new BaseClientDetails("sanjiaomao", "",
+        "all", "password,password,refresh_token", "ROLE_CLIENT","");
+    clientDetails.setClientSecret("{bcrypt}$2a$10$StlEgvEQe/r0/kKd9SRqMO2BVocbP.FgHTHVYYMB/UYUcOc4.hWxS");
+    clientDetails.setAccessTokenValiditySeconds(60000);
+    clientDetails.setRefreshTokenValiditySeconds(1800000);
+    clients.put("sanjiaomao", clientDetails);
+    inMemoryClientDetailsService.setClientDetailsStore(clients);
+    return inMemoryClientDetailsService;
   }
 
 
@@ -58,7 +71,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         .tokenEnhancer(jwtTokenEnhancer())
         // 配置安全认证管理
         .authenticationManager(authenticationManager)
-        .userDetailsService(userDetailsService);
+        .userDetailsService(JWTHelper);
   }
 
   /**
