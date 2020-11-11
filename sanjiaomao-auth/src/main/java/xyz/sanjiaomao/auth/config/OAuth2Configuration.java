@@ -46,7 +46,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
     clients.inMemory().
         withClient("sanjiaomao")
-        .resourceIds("sanjiaomao")
+        .resourceIds("user")
         .authorizedGrantTypes("password", "refresh_token")
         .scopes("all","read", "write")
         .authorities("oauth2")

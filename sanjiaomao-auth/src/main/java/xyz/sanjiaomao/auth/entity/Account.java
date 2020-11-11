@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * account
@@ -33,23 +34,30 @@ public class Account implements UserDetails, Serializable {
    */
   @Column(columnDefinition = "password")
   private String password;
-
-
+  /**
+   * 过期
+   */
   @Column(columnDefinition = "non_expired")
   private Boolean nonExpired;
-
+  /**
+   * 客户端过期
+   */
   @Column(columnDefinition = "credentials_non_expired")
   private Boolean credentialsNonExpired;
-
+  /**
+   * 锁定
+   */
   @Column(columnDefinition = "non_locked")
   private Boolean nonLocked;
-
+  /**
+   * 启用
+   */
   @Column(columnDefinition = "enable")
   private Boolean enable;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return Collections.singletonList((GrantedAuthority) () -> "ROLE_oauth2");
   }
 
   @Override

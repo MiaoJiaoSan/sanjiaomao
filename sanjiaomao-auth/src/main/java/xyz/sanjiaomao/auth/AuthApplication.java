@@ -2,6 +2,7 @@ package xyz.sanjiaomao.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
  * sanjiaomao-oauth
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020-11-09
  */
 @SpringBootApplication
+@EnableResourceServer
 public class AuthApplication {
 
   public static void main(String[] args) {

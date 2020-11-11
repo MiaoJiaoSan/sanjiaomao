@@ -1,9 +1,10 @@
 server:
-  port: 3031
+  port: 8080
+
 
 spring:
   application:
-    name: oauth
+    name: user
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -34,5 +35,16 @@ spring:
       #      use-global-data-source-stat: true
       #      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       #      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-  main:
-    allow-bean-definition-overriding: true
+
+
+security:
+  oauth2:
+    client:
+      client-id: sanjiaomao
+      client-secret: 123456
+      grant-type: password
+      scope: all
+      access-token-uri: http://localhost:3031/oauth/token
+    resource:
+      user-info-uri: http://localhost:3031/auth
+      id: user
