@@ -4,19 +4,18 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * account
+ *
  * @author lyf
  * @date 2020-11-09
  */
 @Data
+@Entity(name = "account")
 public class Account implements UserDetails, Serializable {
   /**
    * id
@@ -36,6 +35,18 @@ public class Account implements UserDetails, Serializable {
   private String password;
 
 
+  @Column(columnDefinition = "non_expired")
+  private Boolean nonExpired;
+
+  @Column(columnDefinition = "credentials_non_expired")
+  private Boolean credentialsNonExpired;
+
+  @Column(columnDefinition = "non_locked")
+  private Boolean nonLocked;
+
+  @Column(columnDefinition = "enable")
+  private Boolean enable;
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return null;
@@ -48,21 +59,21 @@ public class Account implements UserDetails, Serializable {
 
   @Override
   public boolean isAccountNonExpired() {
-    return true;
+    return nonExpired;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return nonLocked;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return true;
+    return credentialsNonExpired;
   }
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return enable;
   }
 }

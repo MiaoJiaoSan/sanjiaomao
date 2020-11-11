@@ -1,10 +1,11 @@
 package xyz.sanjiaomao.oauth.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import xyz.sanjiaomao.oauth.entity.Account;
+import xyz.sanjiaomao.oauth.repository.AccountRepository;
 
 /**
  * jwt
@@ -14,11 +15,11 @@ import xyz.sanjiaomao.oauth.entity.Account;
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+  @Autowired
+  private AccountRepository accountRepository;
+
   @Override
-  public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-    Account accountObj = new Account();
-    accountObj.setUsername("sanjiaomao");
-    accountObj.setPassword("{bcrypt}$2a$10$mIWTpuy9jCcsuVCCRasevuWRGmYbfrfAMFQVzC9LqO4hQzezh3ld.");
-    return accountObj;
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    return accountRepository.findByUsername(username);
   }
 }
