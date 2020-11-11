@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.infrastructure.config;
+package xyz.sanjiaomao.oauth.config;
 
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.oauth2.common.*;
@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.common.util.JsonParser;
 import org.springframework.security.oauth2.common.util.JsonParserFactory;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.oauth.entity.Account;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class JWTTokenEnhancer extends JwtAccessTokenConverter {
 
   public static final String ID = "id";
-  private JsonParser objectMapper = JsonParserFactory.create();
+  private final JsonParser objectMapper = JsonParserFactory.create();
 
   @Override
   public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {

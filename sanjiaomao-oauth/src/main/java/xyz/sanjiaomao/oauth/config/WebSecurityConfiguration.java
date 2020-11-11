@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.infrastructure.config;
+package xyz.sanjiaomao.oauth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,8 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  @Qualifier("JWTHelper")
-  private UserDetailsService JWTHelper;
+  private UserDetailsService userDetailsService;
 
   @Override
   @Bean
@@ -46,14 +45,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable();//关闭CSRF
-//                .exceptionHandling()
-//                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/oauth/**").permitAll()
-////                .antMatchers("/**").authenticated()
-//                .and()
-//                .httpBasic();
     http.requestMatchers().anyRequest()
         .and()
         .authorizeRequests()
@@ -72,6 +63,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(JWTHelper).passwordEncoder(passwordEncoder());
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
   }
 }

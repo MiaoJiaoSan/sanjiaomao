@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.infrastructure.utils.oauth;
+package xyz.sanjiaomao.oauth.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

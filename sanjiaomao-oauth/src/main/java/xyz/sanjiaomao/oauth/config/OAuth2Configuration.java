@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.infrastructure.config;
+package xyz.sanjiaomao.oauth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,13 +16,12 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.sql.DataSource;
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,8 +34,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   private AuthenticationManager authenticationManager;
 
   @Autowired
-  @Qualifier("JWTHelper")
-  private UserDetailsService JWTHelper;
+  private UserDetailsService userDetailsService;
 
 
   /**
@@ -47,12 +45,12 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   public ClientDetailsService clientDetailsService() {
     InMemoryClientDetailsService inMemoryClientDetailsService = new InMemoryClientDetailsService();
     Map<String, ClientDetails> clients = new HashMap<>(1);
-    BaseClientDetails clientDetails = new BaseClientDetails("sanjiaomao", "",
+    BaseClientDetails clientDetails = new BaseClientDetails("pc", "",
         "all", "password,password,refresh_token", "ROLE_CLIENT","");
     clientDetails.setClientSecret("{bcrypt}$2a$10$StlEgvEQe/r0/kKd9SRqMO2BVocbP.FgHTHVYYMB/UYUcOc4.hWxS");
     clientDetails.setAccessTokenValiditySeconds(60000);
     clientDetails.setRefreshTokenValiditySeconds(1800000);
-    clients.put("sanjiaomao", clientDetails);
+    clients.put("pc", clientDetails);
     inMemoryClientDetailsService.setClientDetailsStore(clients);
     return inMemoryClientDetailsService;
   }
@@ -71,7 +69,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         .tokenEnhancer(jwtTokenEnhancer())
         // 配置安全认证管理
         .authenticationManager(authenticationManager)
-        .userDetailsService(JWTHelper);
+        .userDetailsService(userDetailsService);
   }
 
   /**
@@ -100,7 +98,8 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     // 对获取Token的请求不再拦截
     oauthServer.tokenKeyAccess("permitAll()")
         // 验证获取Token的验证信息
-        .checkTokenAccess("isAuthenticated()");
+        .checkTokenAccess("isAuthenticated()")
+        .allowFormAuthenticationForClients();
   }
 
 }

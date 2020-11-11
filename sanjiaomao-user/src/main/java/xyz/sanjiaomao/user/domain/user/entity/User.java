@@ -10,8 +10,6 @@ import lombok.Data;
 @Data
 public class User {
 
-  private Account account;
-
   private Person person;
 
 }

@@ -11,6 +11,7 @@
     <modules>
         <module>sanjiaomao-user</module>
         <module>shared</module>
+        <module>sanjiaomao-oauth</module>
     </modules>
 
     <properties>

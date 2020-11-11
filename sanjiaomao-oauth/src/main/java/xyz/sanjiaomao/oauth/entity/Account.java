@@ -1,9 +1,13 @@
-package xyz.sanjiaomao.user.domain.user.entity;
+package xyz.sanjiaomao.oauth.entity;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -17,19 +21,19 @@ public class Account implements UserDetails, Serializable {
   /**
    * id
    */
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   /**
    * 账号
    */
-  private String account;
+  @Column(columnDefinition = "username")
+  private String username;
   /**
    * 密码
    */
+  @Column(columnDefinition = "password")
   private String password;
-  /**
-   * refreshToken
-   */
-  private String refreshToken;
 
 
   @Override
@@ -39,7 +43,7 @@ public class Account implements UserDetails, Serializable {
 
   @Override
   public String getUsername() {
-    return account;
+    return username;
   }
 
   @Override
