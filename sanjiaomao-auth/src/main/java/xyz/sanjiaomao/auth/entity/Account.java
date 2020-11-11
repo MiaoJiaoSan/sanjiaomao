@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.oauth.entity;
+package xyz.sanjiaomao.auth.entity;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

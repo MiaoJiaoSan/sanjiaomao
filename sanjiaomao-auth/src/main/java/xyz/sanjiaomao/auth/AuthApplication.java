@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.oauth;
+package xyz.sanjiaomao.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020-11-09
  */
 @SpringBootApplication
-public class OAuthApplication {
+public class AuthApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(OAuthApplication.class, args);
+    SpringApplication.run(AuthApplication.class, args);
   }
 }

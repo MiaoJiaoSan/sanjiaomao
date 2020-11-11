@@ -1,7 +1,7 @@
-package xyz.sanjiaomao.oauth.repository;
+package xyz.sanjiaomao.auth.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import xyz.sanjiaomao.oauth.entity.Account;
+import xyz.sanjiaomao.auth.entity.Account;
 
 /**
  * <pre>

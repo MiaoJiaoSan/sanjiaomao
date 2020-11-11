@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.oauth.config;
+package xyz.sanjiaomao.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -17,11 +18,11 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,61 +38,32 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   private UserDetailsService userDetailsService;
 
 
-  /**
-   * 存储客户端信息
-   * @return
-   */
-  @Bean
-  public ClientDetailsService clientDetailsService() {
-    InMemoryClientDetailsService inMemoryClientDetailsService = new InMemoryClientDetailsService();
-    Map<String, ClientDetails> clients = new HashMap<>(1);
-    BaseClientDetails clientDetails = new BaseClientDetails("pc", "",
-        "all", "password,password,refresh_token", "ROLE_CLIENT","");
-    clientDetails.setClientSecret("{bcrypt}$2a$10$StlEgvEQe/r0/kKd9SRqMO2BVocbP.FgHTHVYYMB/UYUcOc4.hWxS");
-    clientDetails.setAccessTokenValiditySeconds(60000);
-    clientDetails.setRefreshTokenValiditySeconds(1800000);
-    clients.put("pc", clientDetails);
-    inMemoryClientDetailsService.setClientDetailsStore(clients);
-    return inMemoryClientDetailsService;
-  }
+
 
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    clients.withClientDetails(clientDetailsService());
+    String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
+    clients.inMemory().
+        withClient("sanjiaomao")
+        .resourceIds("sanjiaomao")
+        .authorizedGrantTypes("password", "refresh_token")
+        .scopes("all","read", "write")
+        .authorities("oauth2")
+        .secret(finalSecret)
+        .accessTokenValiditySeconds(1200)
+        .refreshTokenValiditySeconds(50000);
   }
 
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints){
-    // 配置token的存储方式为JwtTokenStore
-    endpoints.tokenStore(tokenStore())
-        // 配置用于JWT私钥加密的增强器
-        .tokenEnhancer(jwtTokenEnhancer())
-        // 配置安全认证管理
+    endpoints.tokenStore(new InMemoryTokenStore())
         .authenticationManager(authenticationManager)
         .userDetailsService(userDetailsService);
   }
 
-  /**
-   * token存储
-   * @return {@link}
-   */
-  @Bean
-  public TokenStore tokenStore() {
-    return new JwtTokenStore(jwtTokenEnhancer());
-  }
 
-  /**
-   * 配置jks文件
-   * @return 密钥转换器
-   */
-  @Bean
-  protected JwtAccessTokenConverter jwtTokenEnhancer() {
-    KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("configuration.jks"), "sanjiaomao".toCharArray());
-    JwtAccessTokenConverter converter = new JWTTokenEnhancer();
-    converter.setKeyPair(keyStoreKeyFactory.getKeyPair("configuration"));
-    return converter;
-  }
+
 
   @Override
   public void configure(AuthorizationServerSecurityConfigurer oauthServer) {

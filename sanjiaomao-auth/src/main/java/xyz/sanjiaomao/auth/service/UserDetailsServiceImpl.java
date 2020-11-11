@@ -1,11 +1,11 @@
-package xyz.sanjiaomao.oauth.service;
+package xyz.sanjiaomao.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import xyz.sanjiaomao.oauth.repository.AccountRepository;
+import xyz.sanjiaomao.auth.repository.AccountRepository;
 
 /**
  * jwt
