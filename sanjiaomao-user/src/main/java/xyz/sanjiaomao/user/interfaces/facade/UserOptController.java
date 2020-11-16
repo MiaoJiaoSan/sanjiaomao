@@ -13,6 +13,7 @@ public class UserOptController {
 
 
   @GetMapping
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public String info(){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return String.valueOf(authentication.getPrincipal());

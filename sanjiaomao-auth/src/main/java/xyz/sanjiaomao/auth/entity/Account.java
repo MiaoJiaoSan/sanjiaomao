@@ -57,7 +57,7 @@ public class Account implements UserDetails, Serializable {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singletonList((GrantedAuthority) () -> "ROLE_oauth2");
+    return Collections.singletonList((GrantedAuthority) () -> "ROLE_ADMIN");
   }
 
   @Override

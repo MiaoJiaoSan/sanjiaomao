@@ -48,7 +48,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         .resourceIds("user")
         .authorizedGrantTypes("password", "refresh_token")
         .scopes("all","read", "write")
-        .authorities("oauth2")
         .secret(finalSecret)
         .accessTokenValiditySeconds(1200)
         .refreshTokenValiditySeconds(50000)
