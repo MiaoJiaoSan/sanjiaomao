@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootConfiguration
-@EnableAuthorizationServer
 public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
   @Autowired
@@ -46,7 +45,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
     clients.inMemory()
         .withClient("sanjiaomao")
-        .resourceIds("user","auth")
+        .resourceIds("user")
         .authorizedGrantTypes("password", "refresh_token")
         .scopes("all","read", "write")
         .authorities("oauth2")

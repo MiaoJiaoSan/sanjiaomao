@@ -36,3 +36,4 @@ spring:
       #      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
   main:
     allow-bean-definition-overriding: true
+

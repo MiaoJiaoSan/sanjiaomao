@@ -13,10 +13,9 @@ public class UserOptController {
 
 
   @GetMapping
-//  @PreAuthorize("hasRole('oauth2')")
   public String info(){
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return "hello world";
+    return String.valueOf(authentication.getPrincipal());
   }
 
 }
