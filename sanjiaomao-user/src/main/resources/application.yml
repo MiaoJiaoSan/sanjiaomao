@@ -46,5 +46,7 @@ security:
       scope: all
       access-token-uri: http://localhost:3031/oauth/token
     resource:
-      user-info-uri: http://localhost:3031/auth
+      user-info-uri: http://localhost:3031/user/info
+      token-info-uri: http://localhost:3031/oauth/check_token
       id: user
+

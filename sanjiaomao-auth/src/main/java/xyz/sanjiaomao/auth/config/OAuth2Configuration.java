@@ -44,15 +44,16 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-    clients.inMemory().
-        withClient("sanjiaomao")
-        .resourceIds("user")
+    clients.inMemory()
+        .withClient("sanjiaomao")
+        .resourceIds("user","auth")
         .authorizedGrantTypes("password", "refresh_token")
         .scopes("all","read", "write")
         .authorities("oauth2")
         .secret(finalSecret)
         .accessTokenValiditySeconds(1200)
-        .refreshTokenValiditySeconds(50000);
+        .refreshTokenValiditySeconds(50000)
+    ;
   }
 
   @Override
