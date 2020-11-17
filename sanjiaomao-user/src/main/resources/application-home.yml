@@ -42,7 +42,7 @@ security:
     client:
       client-id: sanjiaomao
       client-secret: 123456
-      grant-type: password
+      grant-type: password,refresh_token
       scope: all
       access-token-uri: http://localhost:3031/oauth/token
     resource:

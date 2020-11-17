@@ -5,8 +5,10 @@ server:
 spring:
   application:
     name: user
+  main:
+    allow-bean-definition-overriding: true
   profiles:
-    active: company
+    active: home
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    type: com.alibaba.druid.pool.DruidDataSource
@@ -44,7 +46,7 @@ security:
     client:
       client-id: sanjiaomao
       client-secret: 123456
-      grant-type: password
+      grant-type: password,refresh_token
       scope: all
       access-token-uri: http://localhost:3031/oauth/token
     resource:

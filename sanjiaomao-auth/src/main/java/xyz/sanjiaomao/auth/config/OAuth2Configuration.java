@@ -18,15 +18,14 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.oauth2.provider.token.store.*;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootConfiguration
 public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
@@ -42,18 +41,38 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
+  @Autowired
+  private TokenStore tokenStore;
+
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     clients.withClientDetails(new JdbcClientDetailsService(dataSource));
   }
 
-  @Override
-  public void configure(AuthorizationServerEndpointsConfigurer endpoints){
-    endpoints.tokenStore(new InMemoryTokenStore())
-        .authenticationManager(authenticationManager)
-        .userDetailsService(userDetailsService);
+  @Bean
+  public TokenStore tokenStore() {
+    return new JdbcTokenStore(dataSource);
   }
+
+
+  @Override
+  public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+    // 存数据库
+    endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager)
+        .userDetailsService(userDetailsService);
+
+    // 配置tokenServices参数
+    DefaultTokenServices tokenServices = new DefaultTokenServices();
+    tokenServices.setTokenStore(endpoints.getTokenStore());
+    tokenServices.setSupportRefreshToken(true);
+    tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+    tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+    tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.MINUTES.toSeconds(1));
+    endpoints.tokenServices(tokenServices);
+  }
+
+
 
 
 
