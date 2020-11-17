@@ -16,3 +16,4 @@ create table oauth_client_details
 )
     charset = utf8mb4;
 
+insert into oauth_client_details values ('sanjiaomao','user','{bcrypt}$2a$10$rKiOqfW/8OzFUAQQNlimdewK1I5WF3xqQLEldwNqBtwr9b3b7/ff6','all','password,refresh_token',null,null,1200,50000,null,null);

@@ -17,12 +17,14 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,21 +39,13 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
   private UserDetailsService userDetailsService;
 
 
-
+  @Autowired
+  private DataSource dataSource;
 
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-    clients.inMemory()
-        .withClient("sanjiaomao")
-        .resourceIds("user")
-        .authorizedGrantTypes("password", "refresh_token")
-        .scopes("all","read", "write")
-        .secret(finalSecret)
-        .accessTokenValiditySeconds(1200)
-        .refreshTokenValiditySeconds(50000)
-    ;
+    clients.withClientDetails(new JdbcClientDetailsService(dataSource));
   }
 
   @Override
