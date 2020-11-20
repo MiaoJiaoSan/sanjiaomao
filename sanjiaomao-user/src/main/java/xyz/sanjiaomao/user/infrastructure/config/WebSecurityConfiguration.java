@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @SpringBootConfiguration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     super.configure(http);
@@ -17,9 +18,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .sessionCreationPolicy(SessionCreationPolicy.NEVER);
   }
 
-  @Override
-  @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+
 }

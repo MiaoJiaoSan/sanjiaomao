@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
@@ -44,6 +45,9 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
   @Value("${security.oauth2.client.access-token-uri}")
   private String accessTokenUri;
 
+  @Value("${security.oauth2.resource.token-info-uri}")
+  private String tokenInfoUri;
+
   @Value("${security.oauth2.client.client-id}")
   private String clientId;
 
@@ -64,6 +68,7 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
         if (responseInfo.get(ERROR) != null) {
           errorResponse(response, responseInfo);
         } else {
+          checkToken(request, response, responseInfo);
           requestWrapper(request, response, responseInfo);
         }
       } else {
@@ -73,6 +78,25 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void checkToken(HttpServletRequest request, HttpServletResponse response, Map<String, String> responseInfo) {
+    MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
+    formData.add("token", responseInfo.get("access_token"));
+    HttpHeaders headers = new HttpHeaders();
+    headers.setBasicAuth(clientId, clientSecret);
+    if (headers.getContentType() == null) {
+      headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    }
+    @SuppressWarnings("rawtypes")
+    Map map = restTemplate.exchange(tokenInfoUri, HttpMethod.POST,
+        new HttpEntity<>(formData, headers), Map.class).getBody();
+    @SuppressWarnings("unchecked")
+    Map<String, Object> result = map;
+    DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+    OAuth2Authentication oAuth2Authentication = defaultAccessTokenConverter.extractAuthentication(result);
+
+    SecurityContextHolder.getContext().setAuthentication(oAuth2Authentication);
   }
 
   /**
@@ -86,7 +110,7 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
   private Map<String, String> refresh(String accessToken) throws IOException {
     MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
     formData.add("grant_type", "refresh_token");
-    formData.add("refresh_token", "a21108b4-bddb-464a-a474-1ad3fd343b6a");
+    formData.add("refresh_token", "d2d9d5a0-b80e-479c-925a-895f59e557e8");
     formData.add("client_id", clientId);
     formData.add("client_secret", clientSecret);
     HttpHeaders headers = new HttpHeaders();
@@ -130,7 +154,9 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
     response.addCookie(new Cookie("token_type",responseInfo.get("token_type")));
     RequestWrapper requestWrapper = new RequestWrapper(request);
     requestWrapper.addHeader("Authorization", accessToken);
+
     //如果刷新成功则存储cookie并且跳转到原来需要访问的页面
     request.getRequestDispatcher(request.getRequestURI()).forward(requestWrapper, response);
+//    response.sendRedirect(request.getRequestURI());
   }
 }
