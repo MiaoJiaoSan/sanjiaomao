@@ -11,14 +11,14 @@ create table account
 
 create table oauth_access_token
 (
-    token_id          varchar(256) null comment 'MD5加密的access_token的值',
+    token_id          varchar(256) null comment '加密的access_token的值',
     token             blob         null comment 'OAuth2AccessToken.java对象序列化后的二进制数据',
-    authentication_id varchar(256) not null comment 'MD5加密过的username,client_id,scope'
+    authentication_id varchar(256) not null comment '加密过的username,client_id,scope'
         primary key,
     user_name         varchar(256) null comment '登录的用户名',
     client_id         varchar(256) null comment '客户端ID',
     authentication    blob         null comment 'OAuth2Authentication.java对象序列化后的二进制数据',
-    refresh_token     varchar(256) null comment 'MD5加密后的refresh_token的值'
+    refresh_token     varchar(256) null comment '加密后的refresh_token的值'
 )
     comment '访问令牌' charset = utf8;
 
@@ -52,9 +52,9 @@ create table oauth_client_details
 
 create table oauth_client_token
 (
-    token_id          varchar(256) null comment 'MD5加密的access_token值',
+    token_id          varchar(256) null comment '加密的access_token值',
     token             blob         null comment 'OAuth2AccessToken.java对象序列化后的二进制数据',
-    authentication_id varchar(128) not null comment 'MD5加密过的username,client_id,scope'
+    authentication_id varchar(128) not null comment '加密过的username,client_id,scope'
         primary key,
     user_name         varchar(256) null comment '登录的用户名',
     client_id         varchar(256) null comment '客户端ID'
@@ -70,7 +70,7 @@ create table oauth_code
 
 create table oauth_refresh_token
 (
-    token_id       varchar(256) null comment 'MD5加密过的refresh_token的值',
+    token_id       varchar(256) null comment '加密过的refresh_token的值',
     token          blob         null comment 'OAuth2RefreshToken.java对象序列化后的二进制数据',
     authentication blob         null comment 'OAuth2Authentication.java对象序列化后的二进制数据'
 )

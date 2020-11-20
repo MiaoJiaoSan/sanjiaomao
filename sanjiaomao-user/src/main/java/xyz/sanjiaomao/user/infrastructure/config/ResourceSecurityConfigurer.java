@@ -19,7 +19,7 @@ public class ResourceSecurityConfigurer extends ResourceServerConfigurerAdapter 
   public void configure(ResourceServerSecurityConfigurer resources)
       throws Exception {
     resources.resourceId(this.resource.getResourceId());
-//    resources.authenticationEntryPoint(new RefreshTokenAuthenticationEntryPoint());
+    resources.authenticationEntryPoint(new RefreshTokenAuthenticationEntryPoint());
 //    resources.tokenStore(tokenStore);
   }
 
@@ -28,4 +28,6 @@ public class ResourceSecurityConfigurer extends ResourceServerConfigurerAdapter 
     http.authorizeRequests().anyRequest().authenticated();
 
   }
+
+
 }
