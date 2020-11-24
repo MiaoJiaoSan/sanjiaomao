@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: oauth
+    name: auth
   profiles:
     active: home
   datasource:

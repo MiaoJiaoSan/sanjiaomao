@@ -36,7 +36,6 @@ spring:
       #      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       #      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
-
 security:
   oauth2:
     client:
@@ -44,9 +43,10 @@ security:
       client-secret: 123456
       grant-type: password,refresh_token
       scope: all
-      access-token-uri: http://localhost:3031/oauth/token
+      access-token-uri: http://auth/oauth/token
     resource:
-      user-info-uri: http://localhost:3031/user/info
-      token-info-uri: http://localhost:3031/oauth/check_token
+      user-info-uri: http://auth/user/info
+      token-info-uri: http://auth/oauth/check_token
       id: user
+
 
