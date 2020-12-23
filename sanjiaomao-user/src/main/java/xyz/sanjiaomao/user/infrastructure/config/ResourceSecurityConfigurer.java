@@ -1,25 +1,18 @@
 package xyz.sanjiaomao.user.infrastructure.config;
 
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.client.http.OAuth2ErrorHandler;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedClientException;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.*;
@@ -48,7 +41,7 @@ public class ResourceSecurityConfigurer extends ResourceServerConfigurerAdapter 
 
 
   @Bean
-  public JdbcTokenStore jdbcTokenStore(){
+  public JdbcTokenStore jdbcTokenStore() {
     return new JdbcTokenStore(dataSource);
   }
 
@@ -66,12 +59,11 @@ public class ResourceSecurityConfigurer extends ResourceServerConfigurerAdapter 
   }
 
   @Autowired
-  public void remoteTokenServices(RemoteTokenServices remoteTokenServices, RestTemplate restTemplate){
+  public void remoteTokenServices(RemoteTokenServices remoteTokenServices, RestTemplate restTemplate) {
     restTemplate.setErrorHandler(new DefaultHandler());
     remoteTokenServices.setRestTemplate(restTemplate);
   }
 
-  private WebResponseExceptionTranslator<?> exceptionTranslator = new DefaultWebResponseExceptionTranslator();
 
   public static class DefaultHandler extends DefaultResponseErrorHandler implements ResponseErrorHandler {
     @Override
@@ -81,12 +73,12 @@ public class ResourceSecurityConfigurer extends ResourceServerConfigurerAdapter 
       byte[] body = getResponseBody(response);
       Charset charset = getCharset(response);
       String message = getErrorMessage(statusCode.value(), statusText, body, charset);
-      if(message.indexOf("Token has expired") != -1){
+      if (message.indexOf("Token has expired") != -1) {
         throw new UnauthorizedClientException("Token has expired");
-      }else if(message.indexOf("Token was not recognised") != -1){
-        throw new UnauthorizedClientException("Token was not recognised"){
+      } else if (message.indexOf("Token was not recognised") != -1) {
+        throw new UnauthorizedClientException("Token was not recognised") {
           @Override
-          public int getHttpErrorCode(){
+          public int getHttpErrorCode() {
             return 403;
           }
         };
@@ -123,8 +115,7 @@ public class ResourceSecurityConfigurer extends ResourceServerConfigurerAdapter 
         reader.close();
         buffer.flip();
         return preface + "[" + buffer.toString() + "... (" + responseBody.length + " bytes)]";
-      }
-      catch (IOException ex) {
+      } catch (IOException ex) {
         // should never happen
         throw new IllegalStateException(ex);
       }

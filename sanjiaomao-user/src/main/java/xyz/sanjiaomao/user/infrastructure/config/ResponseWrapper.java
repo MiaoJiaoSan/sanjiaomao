@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class ResponseWrapper extends HttpServletResponseWrapper {
 
   private byte[] body;
+
   /**
    * Constructs a response adaptor wrapping the given response.
    *

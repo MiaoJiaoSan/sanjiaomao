@@ -17,6 +17,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
 
   private Map<String, String> headerMap = new HashMap<>(1);
+
   public void addHeader(String name, String value) {
     headerMap.put(name, value);
   }

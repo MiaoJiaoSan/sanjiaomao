@@ -9,7 +9,7 @@ import xyz.sanjiaomao.user.infrastructure.config.filter.LogFilter;
 public class FilterConfig {
 
   @Bean
-  public FilterRegistrationBean<LogFilter> logFilter(){
+  public FilterRegistrationBean<LogFilter> logFilter() {
     FilterRegistrationBean<LogFilter> filterRegistrationBean = new FilterRegistrationBean<>(new LogFilter());
     filterRegistrationBean.setOrder(0);
     filterRegistrationBean.setName("logFilter");

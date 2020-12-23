@@ -1,10 +1,8 @@
 package xyz.sanjiaomao.user.infrastructure.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.http.*;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -12,10 +10,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,10 +21,8 @@ import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -63,7 +57,6 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
 
   @Resource
   private JdbcTokenStore jdbcTokenStore;
-
 
 
   @Override
@@ -102,7 +95,7 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
     @SuppressWarnings("rawtypes")
     Map map = restTemplate.exchange(tokenInfoUri, HttpMethod.POST,
         new HttpEntity<>(formData, headers), Map.class).getBody();
-    if(!CollectionUtils.isEmpty(map)) {
+    if (!CollectionUtils.isEmpty(map)) {
       @SuppressWarnings("unchecked")
       Map<String, Object> result = map;
       DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
@@ -128,10 +121,10 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
   private Map<String, String> refresh(String accessToken) throws IOException {
     MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
     OAuth2AccessToken oAuth2AccessToken = jdbcTokenStore.readAccessToken(accessToken.split(" ")[1]);
-    if(Objects.isNull(oAuth2AccessToken)){
-      return new HashMap<String, String>(2){{
-        put(ERROR,"401");
-        put(ERROR_DESCRIPTION,"token not find");
+    if (Objects.isNull(oAuth2AccessToken)) {
+      return new HashMap<String, String>(2) {{
+        put(ERROR, "401");
+        put(ERROR_DESCRIPTION, "token not find");
       }};
     }
     formData.add("grant_type", "refresh_token");
@@ -174,8 +167,8 @@ public class RefreshTokenAuthenticationEntryPoint extends OAuth2AuthenticationEn
   private void requestWrapper(HttpServletRequest request, HttpServletResponse response, Map<String, String> responseInfo) throws ServletException, IOException {
     String accessToken = responseInfo.get("token_type") + " " + responseInfo.get("access_token");
 
-    response.addCookie(new Cookie("access_token",responseInfo.get("access_token")));
-    response.addCookie(new Cookie("token_type",responseInfo.get("token_type")));
+    response.addCookie(new Cookie("access_token", responseInfo.get("access_token")));
+    response.addCookie(new Cookie("token_type", responseInfo.get("token_type")));
     RequestWrapper requestWrapper = new RequestWrapper(request);
     requestWrapper.addHeader("Authorization", accessToken);
 

@@ -5,7 +5,6 @@ import org.slf4j.MDC;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.*;
 
 public class ThreadPoolUtil {
@@ -78,7 +77,7 @@ public class ThreadPoolUtil {
                                                RejectedExecutionHandler handler) {
 
 
-    return new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, queue, threadFactory, handler){
+    return new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, queue, threadFactory, handler) {
       @Override
       public Future<?> submit(Runnable task) {
         Runnable r = (Runnable) Proxy.newProxyInstance(Thread.class.getClassLoader(), new Class[]{Runnable.class}, new RunnableTask(task, MDC.getCopyOfContextMap()));
@@ -131,8 +130,8 @@ public class ThreadPoolUtil {
   }
 
 
-  public static ForkJoinPool getForkJoinPool(){
-    return new ForkJoinPool(){
+  public static ForkJoinPool getForkJoinPool() {
+    return new ForkJoinPool() {
       @Override
       public void execute(Runnable task) {
         Runnable r = (Runnable) Proxy.newProxyInstance(Thread.class.getClassLoader(), new Class[]{Runnable.class}, new RunnableTask(task, MDC.getCopyOfContextMap()));
@@ -171,7 +170,7 @@ public class ThreadPoolUtil {
     };
   }
 
-  static{
+  static {
     try {
       ForkJoinPool forkJoinPool = getForkJoinPool();
       Field asyncPool = CompletableFuture.class.getDeclaredField("ASYNC_POOL");
@@ -180,14 +179,14 @@ public class ThreadPoolUtil {
       modifiersField.setAccessible(true);
       modifiersField.setInt(asyncPool, asyncPool.getModifiers() & ~Modifier.FINAL);
       asyncPool.set(null, forkJoinPool);
-    }catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
 
-    MDC.put("traceId","123456");
+    MDC.put("traceId", "123456");
     CompletableFuture.runAsync(() -> {
       System.out.println(MDC.get("traceId"));
     });

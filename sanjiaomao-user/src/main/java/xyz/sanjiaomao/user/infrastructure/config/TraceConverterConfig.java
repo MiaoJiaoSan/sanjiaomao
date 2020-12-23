@@ -8,6 +8,6 @@ public class TraceConverterConfig extends ClassicConverter {
 
   @Override
   public String convert(ILoggingEvent event) {
-    return event.getMDCPropertyMap().getOrDefault("traceId","system");
+    return event.getMDCPropertyMap().getOrDefault("traceId", "system");
   }
 }

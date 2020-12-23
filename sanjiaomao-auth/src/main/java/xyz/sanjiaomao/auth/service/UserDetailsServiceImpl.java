@@ -9,6 +9,7 @@ import xyz.sanjiaomao.auth.repository.AccountRepository;
 
 /**
  * jwt
+ *
  * @author lyf
  * @date 2020-11-09
  */
