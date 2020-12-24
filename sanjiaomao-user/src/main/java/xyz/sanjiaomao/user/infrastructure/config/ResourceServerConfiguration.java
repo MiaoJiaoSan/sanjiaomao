@@ -10,7 +10,7 @@ import org.springframework.security.web.context.request.async.WebAsyncManagerInt
 import xyz.sanjiaomao.user.infrastructure.config.filter.LogFilter;
 
 @SpringBootConfiguration
-public class WebSecurityConfiguration  implements ResourceServerConfigurer {
+public class ResourceServerConfiguration  implements ResourceServerConfigurer {
 
 
   @Override
