@@ -8,12 +8,12 @@ import xyz.sanjiaomao.user.infrastructure.config.filter.LogFilter;
 @Configuration
 public class FilterConfig {
 
-  @Bean
-  public FilterRegistrationBean<LogFilter> logFilter() {
-    FilterRegistrationBean<LogFilter> filterRegistrationBean = new FilterRegistrationBean<>(new LogFilter());
-    filterRegistrationBean.setOrder(0);
-    filterRegistrationBean.setName("logFilter");
-    return filterRegistrationBean;
-  }
+//  @Bean
+//  public FilterRegistrationBean<LogFilter> logFilter() {
+//    FilterRegistrationBean<LogFilter> filterRegistrationBean = new FilterRegistrationBean<>(new LogFilter());
+//    filterRegistrationBean.setOrder(0);
+//    filterRegistrationBean.setName("logFilter");
+//    return filterRegistrationBean;
+//  }
 
 }
