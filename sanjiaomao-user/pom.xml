@@ -58,5 +58,6 @@
             <groupId>xyz.sanjiaomao</groupId>
             <artifactId>shared</artifactId>
         </dependency>
+
     </dependencies>
 </project>
