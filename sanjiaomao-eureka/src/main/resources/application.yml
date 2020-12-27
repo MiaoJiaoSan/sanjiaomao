@@ -1,0 +1,32 @@
+server:
+  port: 9000
+
+eureka:
+  #eureka实例
+  instance:
+    #eureka所在主机名称
+    hostname: eureka
+  client:
+    #获取注册信息，本身就是eureka不需要获取
+    fetch-registry: false
+    #当前服务是否要注册到eureka中,不需要
+    register-with-eureka: false
+    #eureka互相注册
+    service-url:
+      defaultZone: http://eureka:eureka@localhost:9000/eureka
+  #      ,http://eureka:eureka@duplicate:9001/eureka
+  server:
+    #设置清理的间隔时间，单位为毫秒 默认60s
+    eviction-interval-timer-in-ms: 10
+    #关闭保护模式
+    enable-self-preservation: false
+
+spring:
+  security:
+    user:
+      name: eureka
+      password: eureka
+  profiles:
+    active: eureka
+  application:
+    name: eureka
