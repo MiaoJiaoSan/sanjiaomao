@@ -12,6 +12,7 @@
         <module>sanjiaomao-user</module>
         <module>sanjiaomao-eureka</module>
         <module>shared</module>
+        <module>sanjiaomao-sql</module>
     </modules>
 
     <properties>
