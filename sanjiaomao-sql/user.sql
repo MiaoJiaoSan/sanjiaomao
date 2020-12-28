@@ -20,7 +20,7 @@ create table account
     version  bigint unsigned default 0  not null comment 'version'
 ) charset utf8mb4 comment '账号';
 
-drop table user_act_rel;
+# drop table user_act_rel;
 create table user_act_rel
 (
     id      bigint unsigned auto_increment primary key,

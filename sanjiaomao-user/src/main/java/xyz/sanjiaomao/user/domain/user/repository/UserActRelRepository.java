@@ -1,7 +1,6 @@
 package xyz.sanjiaomao.user.domain.user.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import xyz.sanjiaomao.user.domain.user.entity.UserActRel;
+import xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO;
 
 /**
  * <pre>
@@ -11,5 +10,8 @@ import xyz.sanjiaomao.user.domain.user.entity.UserActRel;
  * @author 李宇飞
  * create by 2020-12-27 23:22
  */
-public interface UserActRelRepository extends JpaRepository<UserActRel, Long> {
+public interface UserActRelRepository {
+
+
+  UserActRelDO save(UserActRelDO rel);
 }

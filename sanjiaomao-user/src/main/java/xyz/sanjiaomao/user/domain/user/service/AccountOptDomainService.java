@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.sanjiaomao.user.domain.user.entity.Account;
-import xyz.sanjiaomao.user.infrastructure.repository.AccountPersist;
 
 import java.util.Objects;
 
@@ -19,14 +18,13 @@ import java.util.Objects;
 @Service
 public class AccountOptDomainService {
 
-  @Autowired
-  private AccountPersist accountRepository;
 
 
   @Transactional
   public Boolean save(Account account) {
-    Account save = accountRepository.save(account);
-    return Objects.nonNull(save.getId());
+//    Account save = accountRepository.save(account);
+//    return Objects.nonNull(save.getId());
+    return null;
   }
 
 }

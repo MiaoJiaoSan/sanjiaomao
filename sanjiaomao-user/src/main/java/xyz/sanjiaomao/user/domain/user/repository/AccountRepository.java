@@ -1,7 +1,6 @@
 package xyz.sanjiaomao.user.domain.user.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
 
 /**
  * <pre>
@@ -11,7 +10,7 @@ import xyz.sanjiaomao.user.domain.user.entity.Account;
  * @author 李宇飞
  * create by 2020-12-27 23:10
  */
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository {
 
-  Account findAccountByUsernameAndPassword(String username, String password);
+  AccountDO save(AccountDO account);
 }

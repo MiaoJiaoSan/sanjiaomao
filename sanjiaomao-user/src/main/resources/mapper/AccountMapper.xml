@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.sanjiaomao.user.infrastructure.repository.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="photo" property="photo" jdbcType="BLOB"/>
+        <result column="version" property="version" javaType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO">
+        insert into `account`
+        (
+         `username`,
+         `password`,
+         `email`,
+         `phone`,
+         `photo`
+         )
+        values (
+                #{username,jdbcType=VARCHAR},
+                #{password,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR},
+                #{photo,jdbcType=BLOB}
+                )
+    </insert>
+    <update id="update" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO">
+        update `account` set
+        <if test="username != null">
+            `username` = #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+            `password` = #{password,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null">
+            `email` = #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="phone != null">
+            `phone` = #{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="photo != null">
+            `photo` = #{photo,jdbcType=BLOB},
+        </if>
+        `version` = #{version,jdbcType=VARCHAR} + 1
+        where id = #{id, jdbcType=BIGINT} and version = #{version,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select *
+        from account
+        where id = #{id}
+    </select>
+
+    <select id="findByUsernameAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from account
+        where username = #{username} and password = #{password}
+    </select>
+
+</mapper>

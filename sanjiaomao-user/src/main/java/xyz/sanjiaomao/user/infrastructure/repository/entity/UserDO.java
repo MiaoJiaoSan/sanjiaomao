@@ -1,15 +1,9 @@
-package xyz.sanjiaomao.user.domain.user.entity;
+package xyz.sanjiaomao.user.infrastructure.repository.entity;
 
 import lombok.Data;
 
-/**
- * User root
- *
- * @author lyf
- * @date 2020-11-09
- */
 @Data
-public class User {
+public class UserDO {
   /**
    * id
    */
@@ -30,5 +24,8 @@ public class User {
    * 身份证
    */
   private String idCard;
-
+  /**
+   * 版本号
+   */
+  private Long version;
 }
