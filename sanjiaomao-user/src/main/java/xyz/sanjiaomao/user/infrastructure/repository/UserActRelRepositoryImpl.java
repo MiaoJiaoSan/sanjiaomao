@@ -15,15 +15,15 @@ public class UserActRelRepositoryImpl implements UserActRelRepository {
   private UserActRelMapper userActRelMapper;
 
   @Override
-  public UserActRelDO save(UserActRelDO rel) {
-    UserActRelDO persistence = userActRelMapper.findByUserIdAndActId(rel.getUserId(), rel.getActId());
+  public UserActRelDO save(UserActRelDO userActRelDO) {
+    UserActRelDO persistence = userActRelMapper.findByUserIdAndActId(userActRelDO.getUserId(), userActRelDO.getActId());
     Optional<UserActRelDO> optional = Optional.ofNullable(persistence);
     if(optional.isPresent()){
-      rel.setId(persistence.getId());
-      userActRelMapper.insert(rel);
+      userActRelDO.setId(persistence.getId());
+      userActRelMapper.insert(userActRelDO);
     } else {
-      userActRelMapper.update(rel);
+      userActRelMapper.update(userActRelDO);
     }
-    return rel;
+    return userActRelDO;
   }
 }

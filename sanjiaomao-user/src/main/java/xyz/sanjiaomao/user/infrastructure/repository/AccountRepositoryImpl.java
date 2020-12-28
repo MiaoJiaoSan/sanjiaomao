@@ -15,16 +15,16 @@ public class AccountRepositoryImpl implements AccountRepository {
   private AccountMapper accountMapper;
 
   @Override
-  public AccountDO save(AccountDO account) {
-    AccountDO persistence = accountMapper.findByUsernameAndPassword(account.getUsername(), account.getPassword());
+  public AccountDO save(AccountDO accountDO) {
+    AccountDO persistence = accountMapper.findByUsernameAndPassword(accountDO.getUsername(), accountDO.getPassword());
     Optional<AccountDO> optional = Optional.ofNullable(persistence);
     if(optional.isPresent()){
-      account.setId(persistence.getId());
-      account.setVersion(persistence.getVersion());
-      accountMapper.update(account);
+      accountDO.setId(persistence.getId());
+      accountDO.setVersion(persistence.getVersion());
+      accountMapper.update(accountDO);
     } else {
-      accountMapper.insert(account);
+      accountMapper.insert(accountDO);
     }
-    return account;
+    return accountDO;
   }
 }

@@ -3,7 +3,7 @@ package xyz.sanjiaomao.user.application.event.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.sanjiaomao.user.domain.user.repository.AccountRepository;
-import xyz.sanjiaomao.user.domain.user.service.UserOptDomainService;
+import xyz.sanjiaomao.user.domain.user.service.UserDomainService;
 
 /**
  * <pre>
@@ -16,7 +16,7 @@ import xyz.sanjiaomao.user.domain.user.service.UserOptDomainService;
 @Service
 public class UserOptService {
   @Autowired
-  private UserOptDomainService userOptDomainService;
+  private UserDomainService userDomainService;
   @Autowired
   private AccountRepository accountRepository;
 

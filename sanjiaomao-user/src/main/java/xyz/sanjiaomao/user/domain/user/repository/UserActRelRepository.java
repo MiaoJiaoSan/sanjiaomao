@@ -13,5 +13,5 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO;
 public interface UserActRelRepository {
 
 
-  UserActRelDO save(UserActRelDO rel);
+  UserActRelDO save(UserActRelDO userActRelDO);
 }

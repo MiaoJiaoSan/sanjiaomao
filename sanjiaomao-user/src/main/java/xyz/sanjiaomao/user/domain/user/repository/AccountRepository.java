@@ -12,5 +12,5 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
  */
 public interface AccountRepository {
 
-  AccountDO save(AccountDO account);
+  AccountDO save(AccountDO accountDO);
 }

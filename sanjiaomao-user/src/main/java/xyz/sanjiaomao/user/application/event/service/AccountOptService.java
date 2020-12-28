@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.sanjiaomao.user.domain.user.entity.Account;
-import xyz.sanjiaomao.user.domain.user.service.AccountOptDomainService;
+import xyz.sanjiaomao.user.domain.user.service.AccountDomainService;
 import xyz.sanjiaomao.user.interfaces.assembler.AccountAssembler;
 import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
 
@@ -22,14 +22,14 @@ public class AccountOptService {
   @Autowired
   private AccountAssembler accountAssembler;
   @Autowired
-  private AccountOptDomainService accountOptDomainService;
+  private AccountDomainService accountDomainService;
 
   @Transactional
   public Boolean save(AccountDTO dto) {
     Account account = accountAssembler.convert(dto);
     account.setUsername("sanjiaomao");
     account.setPassword("sanjiaomao");
-    return accountOptDomainService.save(account);
+    return accountDomainService.save(account);
   }
 
 }

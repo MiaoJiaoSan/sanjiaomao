@@ -1,12 +1,14 @@
 package xyz.sanjiaomao.user.infrastructure.repository.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO;
 
+@Mapper
 public interface UserActRelMapper {
 
-  int insert(UserActRelDO userActRel);
+  int insert(UserActRelDO userActRelDO);
 
-  int update(UserActRelDO userActRel);
+  int update(UserActRelDO userActRelDO);
 
   UserActRelDO findByUserId(Long userId);
 

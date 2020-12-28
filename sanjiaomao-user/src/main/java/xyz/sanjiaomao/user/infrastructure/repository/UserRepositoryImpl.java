@@ -15,16 +15,16 @@ public class UserRepositoryImpl implements UserRepository {
   private UserMapper userMapper;
 
   @Override
-  public UserDO save(UserDO user) {
-    UserDO persistence = userMapper.findByIdCard(user.getIdCard());
+  public UserDO save(UserDO userDO) {
+    UserDO persistence = userMapper.findByIdCard(userDO.getIdCard());
     Optional<UserDO> optional = Optional.ofNullable(persistence);
     if(optional.isPresent()){
-      user.setId(persistence.getId());
-      user.setVersion(persistence.getVersion());
-      userMapper.update(user);
+      userDO.setId(persistence.getId());
+      userDO.setVersion(persistence.getVersion());
+      userMapper.update(userDO);
     } else {
-      userMapper.insert(user);
+      userMapper.insert(userDO);
     }
-    return user;
+    return userDO;
   }
 }

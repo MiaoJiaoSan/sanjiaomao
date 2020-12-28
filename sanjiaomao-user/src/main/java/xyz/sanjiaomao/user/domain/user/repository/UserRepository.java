@@ -12,6 +12,6 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
  */
 public interface UserRepository {
 
-  UserDO save(UserDO user);
+  UserDO save(UserDO userDO);
 
 }
