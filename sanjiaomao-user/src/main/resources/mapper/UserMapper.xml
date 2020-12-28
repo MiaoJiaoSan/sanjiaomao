@@ -42,13 +42,13 @@
     <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select *
         from user
-        where id = #{id}
+        where id = #{id, jdbcType=BIGINT}
     </select>
 
     <select id="findByIdCard" parameterType="java.lang.String" resultMap="BaseResultMap">
         select *
         from user
-        where id_card = #{idCard}
+        where id_card = #{idCard,jdbcType=VARCHAR}
     </select>
 
 </mapper>

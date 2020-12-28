@@ -11,4 +11,6 @@ public interface UserActRelMapper {
   UserActRelDO findByUserId(Long userId);
 
   UserActRelDO findByActId(Long actId);
+
+  UserActRelDO findByUserIdAndActId(Long userId, Long actId);
 }

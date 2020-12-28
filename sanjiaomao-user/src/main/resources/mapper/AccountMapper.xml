@@ -17,15 +17,13 @@
          `username`,
          `password`,
          `email`,
-         `phone`,
-         `photo`
+         `phone`
          )
         values (
                 #{username,jdbcType=VARCHAR},
                 #{password,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR},
-                #{phone,jdbcType=VARCHAR},
-                #{photo,jdbcType=BLOB}
+                #{phone,jdbcType=VARCHAR}
                 )
     </insert>
     <update id="update" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO">
@@ -52,13 +50,13 @@
     <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select *
         from account
-        where id = #{id}
+        where id = #{id, jdbcType=BIGINT}
     </select>
 
     <select id="findByUsernameAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
         select *
         from account
-        where username = #{username} and password = #{password}
+        where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
     </select>
 
 </mapper>

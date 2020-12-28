@@ -13,7 +13,7 @@
   <update id="update" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO">
     update user_act_rel set
     <if test="userId">
-        user_id = #{userId,,jdbcType=BIGINT}
+        user_id = #{userId,,jdbcType=BIGINT},
     </if>
     <if test="actId">
         act_id = #{actId,,jdbcType=BIGINT}
@@ -25,5 +25,8 @@
   </select>
   <select id="findByActId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select * from user_act_rel where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="findByUserIdAndActId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from user_act_rel where user_id = #{userId,jdbcType=BIGINT} and act_id = #{actId,jdbcType=BIGINT}
   </select>
 </mapper>

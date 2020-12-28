@@ -4,7 +4,6 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
 
 public interface UserMapper {
 
-
   int insert(UserDO user);
 
   int update(UserDO user);
