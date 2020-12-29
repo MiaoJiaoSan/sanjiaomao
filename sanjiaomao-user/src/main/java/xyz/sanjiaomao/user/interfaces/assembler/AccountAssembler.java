@@ -1,7 +1,7 @@
 package xyz.sanjiaomao.user.interfaces.assembler;
 
 import org.mapstruct.Mapper;
-import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.user.application.cmd.opt.SaveActCmd;
 import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
 
 /**
@@ -16,5 +16,5 @@ import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
 public interface AccountAssembler {
 
 
-  Account convert(AccountDTO dto);
+  SaveActCmd convert(AccountDTO dto);
 }

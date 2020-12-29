@@ -1,9 +1,12 @@
 package xyz.sanjiaomao.user.domain.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import xyz.sanjiaomao.user.domain.user.assembler.UserDomainAssembler;
 import xyz.sanjiaomao.user.domain.user.entity.User;
+import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
+import xyz.sanjiaomao.user.domain.user.event.SaveUserEvent;
 import xyz.sanjiaomao.user.domain.user.repository.UserRepository;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
 
@@ -26,11 +29,17 @@ public class UserDomainService {
   @Autowired
   private UserDomainAssembler userDomainAssembler;
 
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
-  public Boolean save(User user){
-    UserDO userDO = userDomainAssembler.convert(user);
+
+  public Long save(UserAggregation aggregation){
+    UserDO userDO = userDomainAssembler.convert(aggregation.getUser());
     userRepository.save(userDO);
-    return Objects.nonNull(userDO.getId());
+    User user = userDomainAssembler.convert(userDO);
+    aggregation.setUser(user);
+    eventPublisher.publishEvent(new SaveUserEvent(aggregation));
+    return userDO.getId();
   }
 
 }

@@ -16,7 +16,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
   @Override
   public AccountDO save(AccountDO accountDO) {
-    AccountDO persistence = accountMapper.findByUsernameAndPassword(accountDO.getUsername(), accountDO.getPassword());
+    AccountDO persistence = accountMapper.findById(accountDO.getId());
     Optional<AccountDO> optional = Optional.ofNullable(persistence);
     if(optional.isPresent()){
       accountDO.setId(persistence.getId());
@@ -27,4 +27,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
     return accountDO;
   }
+
+  @Override
+  public AccountDO findById(Long id) {
+    return accountMapper.findById(id);
+  }
+
+
 }

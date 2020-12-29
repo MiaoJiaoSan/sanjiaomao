@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.sanjiaomao.user.domain.user.assembler.AccountDomainAssembler;
-import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
 import xyz.sanjiaomao.user.domain.user.repository.AccountRepository;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
 
@@ -28,8 +28,8 @@ public class AccountDomainService {
   private AccountRepository accountRepository;
 
   @Transactional
-  public Boolean save(Account account) {
-    AccountDO accountDO = accountDomainAssembler.convert(account);
+  public Boolean save(UserAggregation aggregation) {
+    AccountDO accountDO = accountDomainAssembler.convert(aggregation.getAccount());
     accountRepository.save(accountDO);
     return Objects.nonNull(accountDO.getId());
   }

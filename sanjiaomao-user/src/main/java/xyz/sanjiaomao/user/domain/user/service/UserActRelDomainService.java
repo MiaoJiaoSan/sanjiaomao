@@ -1,9 +1,14 @@
 package xyz.sanjiaomao.user.domain.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import xyz.sanjiaomao.user.domain.user.assembler.UserActRelDomainAssembler;
+import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.user.domain.user.entity.User;
 import xyz.sanjiaomao.user.domain.user.entity.UserActRel;
+import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
+import xyz.sanjiaomao.user.domain.user.event.SaveUserEvent;
 import xyz.sanjiaomao.user.domain.user.repository.UserActRelRepository;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO;
 
@@ -15,15 +20,15 @@ public class UserActRelDomainService {
   @Autowired
   private UserActRelRepository userActRelRepository;
 
-  @Autowired
-  private UserActRelDomainAssembler userActRelDomainAssembler;
-
-
-  public Boolean save(UserActRel userActRel){
-    UserActRelDO userActRelDO = userActRelDomainAssembler.convert(userActRel);
-    userActRelRepository.save(userActRelDO);
-    return Objects.nonNull(userActRel.getId());
+  @EventListener
+  public void listener(SaveUserEvent event){
+    UserAggregation aggregation = event.getAggregation();
+    Account account = aggregation.getAccount();
+    User user = aggregation.getUser();
   }
+
+
+
 
 
 }

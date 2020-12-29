@@ -1,6 +1,8 @@
 package xyz.sanjiaomao.user.domain.user.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * User root
@@ -9,6 +11,7 @@ import lombok.Data;
  * @date 2020-11-09
  */
 @Data
+@AllArgsConstructor
 public class User {
   /**
    * id
@@ -30,5 +33,10 @@ public class User {
    * 身份证
    */
   private String idCard;
+
+  public User(Long id){
+    this.id = id;
+  }
+
 
 }

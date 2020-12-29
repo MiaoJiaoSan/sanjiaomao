@@ -1,9 +1,11 @@
-package xyz.sanjiaomao.user.application.event.service;
+package xyz.sanjiaomao.user.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.sanjiaomao.user.application.cmd.opt.SaveActCmd;
 import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
 import xyz.sanjiaomao.user.domain.user.service.AccountDomainService;
 import xyz.sanjiaomao.user.interfaces.assembler.AccountAssembler;
 import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
@@ -19,17 +21,14 @@ import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
 @Service
 public class AccountOptService {
 
-  @Autowired
-  private AccountAssembler accountAssembler;
+
   @Autowired
   private AccountDomainService accountDomainService;
 
   @Transactional
-  public Boolean save(AccountDTO dto) {
-    Account account = accountAssembler.convert(dto);
-    account.setUsername("sanjiaomao");
-    account.setPassword("sanjiaomao");
-    return accountDomainService.save(account);
+  public Boolean save(SaveActCmd cmd) {
+    Account account = new Account(cmd.getId(), cmd.getUsername(), cmd.getPassword(), cmd.getEmail(), cmd.getPhone());
+    return accountDomainService.save(new UserAggregation(account, null));
   }
 
 }

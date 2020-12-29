@@ -13,4 +13,6 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
 public interface AccountRepository {
 
   AccountDO save(AccountDO accountDO);
+
+  AccountDO findById(Long id);
 }

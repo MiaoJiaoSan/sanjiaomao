@@ -6,5 +6,8 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
 
 @Mapper(componentModel = "spring")
 public interface UserDomainAssembler {
+
+  User convert(UserDO userDO);
+
   UserDO convert(User user);
 }

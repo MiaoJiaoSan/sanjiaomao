@@ -16,7 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public UserDO save(UserDO userDO) {
-    UserDO persistence = userMapper.findByIdCard(userDO.getIdCard());
+    UserDO persistence = userMapper.findById(userDO.getId());
     Optional<UserDO> optional = Optional.ofNullable(persistence);
     if(optional.isPresent()){
       userDO.setId(persistence.getId());

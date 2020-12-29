@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.application.event.service;
+package xyz.sanjiaomao.user.application.service;
 
 import org.springframework.stereotype.Service;
 

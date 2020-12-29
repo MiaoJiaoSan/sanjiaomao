@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.interfaces.dto;
+package xyz.sanjiaomao.user.application.cmd.opt;
 
 import lombok.Data;
 
@@ -8,14 +8,14 @@ import lombok.Data;
  * </pre>
  *
  * @author 李宇飞
- * create by 2020-12-28 00:39
+ * create by 2020-12-29 13:04
  */
 @Data
-public class UserDTO {
+public class SaveUserCmd {
 
-  private String username;
+  private Long id;
 
-  private String password;
+  private Long actId;
 
   private String name;
 
@@ -26,5 +26,4 @@ public class UserDTO {
   private String idCard;
 
   private String photo;
-
 }
