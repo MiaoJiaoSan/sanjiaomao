@@ -8,12 +8,13 @@ create table user
     version bigint unsigned default 0  not null comment 'version'
 ) charset utf8mb4 comment '用户';
 
-
+drop table account;
 create table account
 (
     id       bigint unsigned auto_increment primary key,
     username varchar(20)                not null comment '账号',
     password varchar(20)                not null comment '密码',
+    nickname varchar(20)                not null comment 'nickname',
     email    varchar(64)     default '' not null comment '邮箱',
     phone    varchar(64)     default '' not null comment '电话',
     photo    blob comment '图片',

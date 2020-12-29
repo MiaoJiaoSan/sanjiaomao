@@ -11,6 +11,8 @@ public class AccountDO {
 
   private String password;
 
+  private String nickname;
+
   private String email;
 
   private String phone;

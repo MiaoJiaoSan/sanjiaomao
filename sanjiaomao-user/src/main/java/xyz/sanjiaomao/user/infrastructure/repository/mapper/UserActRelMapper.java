@@ -1,6 +1,7 @@
 package xyz.sanjiaomao.user.infrastructure.repository.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO;
 
 @Mapper
@@ -14,5 +15,5 @@ public interface UserActRelMapper {
 
   UserActRelDO findByActId(Long actId);
 
-  UserActRelDO findByUserIdAndActId(Long userId, Long actId);
+  UserActRelDO findByUserIdAndActId(@Param("userId") Long userId, @Param("actId") Long actId);
 }

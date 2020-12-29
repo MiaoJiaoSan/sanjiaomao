@@ -6,7 +6,7 @@
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="act_id" property="actId" jdbcType="BIGINT" />
   </resultMap>
-  <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO" >
+  <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO" useGeneratedKeys="true" keyProperty="id" >
     insert into user_act_rel (user_id, act_id)
     values (#{userId,jdbcType=BIGINT},#{actId,jdbcType=BIGINT})
   </insert>

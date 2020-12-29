@@ -20,9 +20,9 @@ public class UserActRelRepositoryImpl implements UserActRelRepository {
     Optional<UserActRelDO> optional = Optional.ofNullable(persistence);
     if(optional.isPresent()){
       userActRelDO.setId(persistence.getId());
-      userActRelMapper.insert(userActRelDO);
-    } else {
       userActRelMapper.update(userActRelDO);
+    } else {
+      userActRelMapper.insert(userActRelDO);
     }
     return userActRelDO;
   }

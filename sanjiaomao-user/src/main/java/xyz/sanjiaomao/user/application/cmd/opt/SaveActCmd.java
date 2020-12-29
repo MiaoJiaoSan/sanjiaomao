@@ -19,6 +19,8 @@ public class SaveActCmd {
 
   private String password;
 
+  private String nickname;
+
   private String email;
 
   private String phone;
