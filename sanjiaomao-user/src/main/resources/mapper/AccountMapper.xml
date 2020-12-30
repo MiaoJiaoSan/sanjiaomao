@@ -51,20 +51,20 @@
         <if test="photo != null">
             `photo` = #{photo,jdbcType=BLOB},
         </if>
-        `version` = #{version,jdbcType=VARCHAR} + 1
-        where id = #{id, jdbcType=BIGINT} and version = #{version,jdbcType=VARCHAR}
+        `version` = #{version,jdbcType=BIGINT} + 1
+        where `id` = #{id, jdbcType=BIGINT} and `version` = #{version,jdbcType=BIGINT}
     </update>
 
     <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select *
-        from account
-        where id = #{id, jdbcType=BIGINT}
+        from `account`
+        where `id` = #{id, jdbcType=BIGINT}
     </select>
 
     <select id="findByUsernameAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
         select *
-        from account
-        where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+        from `account`
+        where `username` = #{username,jdbcType=VARCHAR} and `password` = #{password,jdbcType=VARCHAR}
     </select>
 
 </mapper>

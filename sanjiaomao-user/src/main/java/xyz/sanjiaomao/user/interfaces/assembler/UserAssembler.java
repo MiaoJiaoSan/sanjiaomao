@@ -2,7 +2,7 @@ package xyz.sanjiaomao.user.interfaces.assembler;
 
 import org.mapstruct.Mapper;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveUserCmd;
-import xyz.sanjiaomao.user.interfaces.dto.UserDTO;
+import xyz.sanjiaomao.user.interfaces.dto.SaveUserDTO;
 
 /**
  * <pre>
@@ -15,5 +15,5 @@ import xyz.sanjiaomao.user.interfaces.dto.UserDTO;
 @Mapper(componentModel = "spring")
 public interface UserAssembler {
 
-  SaveUserCmd convert(UserDTO dto);
+  SaveUserCmd convert(SaveUserDTO dto);
 }

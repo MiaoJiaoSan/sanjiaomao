@@ -1,8 +1,10 @@
 package xyz.sanjiaomao.user.interfaces.assembler;
 
 import org.mapstruct.Mapper;
+import xyz.sanjiaomao.user.application.cmd.opt.AddRoleCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveActCmd;
-import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
+import xyz.sanjiaomao.user.interfaces.dto.AddRoleDTO;
+import xyz.sanjiaomao.user.interfaces.dto.SaveAccountDTO;
 
 /**
  * <pre>
@@ -16,5 +18,7 @@ import xyz.sanjiaomao.user.interfaces.dto.AccountDTO;
 public interface AccountAssembler {
 
 
-  SaveActCmd convert(AccountDTO dto);
+  SaveActCmd convert(SaveAccountDTO dto);
+
+  AddRoleCmd convert(AddRoleDTO dto);
 }

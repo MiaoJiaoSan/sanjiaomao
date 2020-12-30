@@ -13,5 +13,7 @@ public class Role {
 
   private String name;
 
-  private Long version;
+  public Role(Long id){
+    this.id = id;
+  }
 }

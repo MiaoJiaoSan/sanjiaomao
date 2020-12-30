@@ -39,20 +39,20 @@
         <if test="idCard != null">
             `id_card` = #{idCard,jdbcType=VARCHAR},
         </if>
-        `version` = #{version,jdbcType=VARCHAR} + 1
-        where id = #{id, jdbcType=BIGINT} and version = #{version,jdbcType=VARCHAR}
+        `version` = #{version,jdbcType=BIGINT} + 1
+        where `id` = #{id, jdbcType=BIGINT} and `version` = #{version,jdbcType=BIGINT}
     </update>
 
     <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select *
-        from user
-        where id = #{id, jdbcType=BIGINT}
+        from `user`
+        where `id` = #{id, jdbcType=BIGINT}
     </select>
 
     <select id="findByIdCard" parameterType="java.lang.String" resultMap="BaseResultMap">
         select *
-        from user
-        where id_card = #{idCard,jdbcType=VARCHAR}
+        from `user`
+        where `id_card` = #{idCard,jdbcType=VARCHAR}
     </select>
 
 </mapper>

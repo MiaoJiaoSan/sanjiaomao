@@ -28,10 +28,8 @@ public class UserOptService {
 
   @Transactional(rollbackFor = Exception.class)
   public Boolean save(SaveUserCmd cmd){
-    User user = new User(Optional.ofNullable(cmd.getId()).orElse(SnowflakeUtil.USER.nextId())
-        , cmd.getName(), cmd.getAge(), cmd.getGender(), cmd.getIdCard());
-    UserAggregation aggregation = new UserAggregation(new Account(cmd.getActId()), user);
-    userDomainService.save(aggregation);
+    User user = new User(cmd.getId(), cmd.getName(), cmd.getAge(), cmd.getGender(), cmd.getIdCard());
+    userDomainService.save(user, cmd.getActId());
     return true;
   }
 }
