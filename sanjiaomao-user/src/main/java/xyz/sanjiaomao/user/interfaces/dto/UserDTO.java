@@ -13,6 +13,8 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
+  private Long id;
+
   private Long actId;
 
   private String name;
