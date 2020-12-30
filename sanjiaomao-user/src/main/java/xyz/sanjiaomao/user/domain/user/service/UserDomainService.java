@@ -36,7 +36,6 @@ public class UserDomainService {
 
   @Transactional
   public Long save(UserAggregation aggregation){
-    log.info("====================="+Thread.currentThread().getId());
     UserDO userDO = userDomainAssembler.convert(aggregation.getUser());
     userDO = userRepository.save(userDO);
     User user = userDomainAssembler.convert(userDO);

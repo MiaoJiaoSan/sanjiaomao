@@ -24,11 +24,10 @@ public class UserActRelDomainService {
 
   @EventListener
   public void listener(SaveUserEvent event){
-    log.info("====================="+Thread.currentThread().getId());
     UserAggregation aggregation = event.getAggregation();
     Account account = aggregation.getAccount();
     User user = aggregation.getUser();
-    UserActRel userActRel = new UserActRel(null, null, account.getId());
+    UserActRel userActRel = new UserActRel(null, user.getId(), account.getId());
     UserActRelDO userActRelDO = userActRelDomainAssembler.convert(userActRel);
     userActRelRepository.save(userActRelDO);
   }
