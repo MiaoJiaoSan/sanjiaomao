@@ -17,4 +17,6 @@ public interface AccountDomainAssembler {
 
 
   AccountDO convert(Account account);
+
+  Account convert(AccountDO accountDO);
 }

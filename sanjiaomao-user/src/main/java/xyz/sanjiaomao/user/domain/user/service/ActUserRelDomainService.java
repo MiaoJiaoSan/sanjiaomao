@@ -4,33 +4,33 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import xyz.sanjiaomao.user.domain.user.assembler.UserActRelDomainAssembler;
+import xyz.sanjiaomao.shared.autoconfiguration.snowflake.SnowflakeUtil;
+import xyz.sanjiaomao.user.domain.user.assembler.ActUserRelDomainAssembler;
 import xyz.sanjiaomao.user.domain.user.entity.Account;
 import xyz.sanjiaomao.user.domain.user.entity.User;
-import xyz.sanjiaomao.user.domain.user.entity.UserActRel;
+import xyz.sanjiaomao.user.domain.user.entity.ActUserRel;
 import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
 import xyz.sanjiaomao.user.domain.user.event.SaveUserEvent;
-import xyz.sanjiaomao.user.domain.user.repository.UserActRelRepository;
-import xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO;
+import xyz.sanjiaomao.user.domain.user.repository.ActUserRelRepository;
+import xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO;
 
 @Service
 @Slf4j
-public class UserActRelDomainService {
+public class ActUserRelDomainService {
 
   @Autowired
-  private UserActRelRepository userActRelRepository;
+  private ActUserRelRepository actUserRelRepository;
   @Autowired
-  private UserActRelDomainAssembler userActRelDomainAssembler;
+  private ActUserRelDomainAssembler actUserRelDomainAssembler;
 
   @EventListener
   public void listener(SaveUserEvent event){
-    log.info("====================="+Thread.currentThread().getId());
     UserAggregation aggregation = event.getAggregation();
     Account account = aggregation.getAccount();
     User user = aggregation.getUser();
-    UserActRel userActRel = new UserActRel(null, null, account.getId());
-    UserActRelDO userActRelDO = userActRelDomainAssembler.convert(userActRel);
-    userActRelRepository.save(userActRelDO);
+    ActUserRel actUserRel = new ActUserRel(SnowflakeUtil.USER_ACT_REL.nextId(), user.getId(), account.getId());
+    ActUserRelDO actUserRelDO = actUserRelDomainAssembler.convert(actUserRel);
+    actUserRelRepository.save(actUserRelDO);
   }
 
 

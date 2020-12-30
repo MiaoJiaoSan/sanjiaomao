@@ -2,6 +2,7 @@ package xyz.sanjiaomao.user.infrastructure.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.sanjiaomao.user.domain.user.repository.UserRepository;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
 import xyz.sanjiaomao.user.infrastructure.repository.mapper.UserMapper;
@@ -15,6 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
   private UserMapper userMapper;
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public UserDO save(UserDO userDO) {
     UserDO persistence = userMapper.findById(userDO.getId());
     Optional<UserDO> optional = Optional.ofNullable(persistence);

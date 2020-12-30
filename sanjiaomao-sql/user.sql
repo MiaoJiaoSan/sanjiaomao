@@ -21,10 +21,17 @@ create table account
     version  bigint unsigned default 0  not null comment 'version'
 ) charset utf8mb4 comment '账号';
 
-# drop table user_act_rel;
+
 create table user_act_rel
 (
     id      bigint unsigned auto_increment primary key,
     user_id bigint unsigned not null,
     act_id  bigint unsigned not null
 ) charset utf8mb4 comment '用户账号关系';
+
+create table role
+(
+    id      bigint unsigned auto_increment primary key,
+    name    varchar(20),
+    version bigint unsigned default 0 not null comment 'version'
+)

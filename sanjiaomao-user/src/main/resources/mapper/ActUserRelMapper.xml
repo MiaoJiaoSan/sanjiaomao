@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="xyz.sanjiaomao.user.infrastructure.repository.mapper.UserActRelMapper" >
-  <resultMap id="BaseResultMap" type="xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO" >
+<mapper namespace="xyz.sanjiaomao.user.infrastructure.repository.mapper.ActUserRelMapper" >
+  <resultMap id="BaseResultMap" type="xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="act_id" property="actId" jdbcType="BIGINT" />
   </resultMap>
-  <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO" useGeneratedKeys="true" keyProperty="id" >
-    insert into user_act_rel (user_id, act_id)
-    values (#{userId,jdbcType=BIGINT},#{actId,jdbcType=BIGINT})
+  <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into user_act_rel (id, user_id, act_id)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},#{actId,jdbcType=BIGINT})
   </insert>
-  <update id="update" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserActRelDO">
+  <update id="update" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO">
     update user_act_rel set
     <if test="userId">
         user_id = #{userId,,jdbcType=BIGINT},

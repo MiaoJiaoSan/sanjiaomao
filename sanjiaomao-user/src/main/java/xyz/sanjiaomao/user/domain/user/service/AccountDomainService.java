@@ -27,11 +27,12 @@ public class AccountDomainService {
   @Autowired
   private AccountRepository accountRepository;
 
-  @Transactional
-  public Boolean save(UserAggregation aggregation) {
+  @Transactional(rollbackFor = Exception.class)
+  public Long save(UserAggregation aggregation) {
     AccountDO accountDO = accountDomainAssembler.convert(aggregation.getAccount());
-    accountRepository.save(accountDO);
-    return Objects.nonNull(accountDO.getId());
+    accountDO = accountRepository.save(accountDO);
+    aggregation.setAccount(accountDomainAssembler.convert(accountDO));
+    return accountDO.getId();
   }
 
 }

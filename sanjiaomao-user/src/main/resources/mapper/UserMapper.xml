@@ -12,11 +12,15 @@
 
     <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO" useGeneratedKeys="true" keyProperty="id">
         insert into `user`
-        (`name`,
+        (
+         `id`,
+         `name`,
          `age`,
          `gender`,
          `id_card`)
-        values (#{name,jdbcType=VARCHAR},
+        values (
+                #{id,jdbcType=BIGINT},
+                #{name,jdbcType=VARCHAR},
                 #{age,jdbcType=INTEGER},
                 #{gender,jdbcType=INTEGER},
                 #{idCard,jdbcType=VARCHAR})

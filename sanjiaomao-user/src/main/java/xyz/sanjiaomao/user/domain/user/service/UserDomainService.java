@@ -34,13 +34,11 @@ public class UserDomainService {
   private ApplicationEventPublisher eventPublisher;
 
 
-  @Transactional
+  @Transactional(rollbackFor = Exception.class)
   public Long save(UserAggregation aggregation){
-    log.info("====================="+Thread.currentThread().getId());
     UserDO userDO = userDomainAssembler.convert(aggregation.getUser());
     userDO = userRepository.save(userDO);
-    User user = userDomainAssembler.convert(userDO);
-    aggregation.setUser(user);
+    aggregation.setUser(userDomainAssembler.convert(userDO));
     eventPublisher.publishEvent(new SaveUserEvent(aggregation));
     return userDO.getId();
   }
