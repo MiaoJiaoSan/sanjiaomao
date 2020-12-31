@@ -3,10 +3,14 @@ package xyz.sanjiaomao.user.application.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.sanjiaomao.shared.autoconfiguration.snowflake.SnowflakeUtil;
+import xyz.sanjiaomao.user.application.cmd.opt.AddRoleCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveActCmd;
 import xyz.sanjiaomao.user.domain.user.entity.Account;
-import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
+import xyz.sanjiaomao.user.domain.user.entity.Role;
 import xyz.sanjiaomao.user.domain.user.service.AccountDomainService;
+
+import java.util.Optional;
 
 /**
  * <pre>
@@ -23,10 +27,20 @@ public class AccountOptService {
   @Autowired
   private AccountDomainService accountDomainService;
 
-  @Transactional
+  @Transactional(rollbackFor = Exception.class)
   public Boolean save(SaveActCmd cmd) {
-    Account account = new Account(cmd.getId(), cmd.getUsername(), cmd.getPassword(), cmd.getNickname(), cmd.getEmail(), cmd.getPhone());
-    return accountDomainService.save(new UserAggregation(account, null));
+    Account account = new Account(Optional.ofNullable(cmd.getId()).orElse(SnowflakeUtil.ACCOUNT.nextId()),
+        cmd.getUsername(), cmd.getPassword(), cmd.getNickname(), cmd.getEmail(), cmd.getPhone());
+    accountDomainService.save(account);
+    return true;
   }
 
+  @Transactional(rollbackFor = Exception.class)
+  public Boolean addRole(AddRoleCmd cmd) {
+
+    Account account = new Account(cmd.getActId());
+    Role role = new Role(cmd.getRoleId());
+    accountDomainService.addRole(account, role);
+    return true;
+  }
 }

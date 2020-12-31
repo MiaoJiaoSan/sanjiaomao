@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  * create by 2020-12-27 23:40
  */
 @Data
-public class AccountDTO {
+public class SaveAccountDTO {
   @NotNull(message = "用户id不能为空")
   private Long id;
   @NotNull(message = "用户nickname不能为空")

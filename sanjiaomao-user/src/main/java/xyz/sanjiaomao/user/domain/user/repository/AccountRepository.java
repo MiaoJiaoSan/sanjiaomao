@@ -1,6 +1,11 @@
 package xyz.sanjiaomao.user.domain.user.repository;
 
+import xyz.sanjiaomao.user.domain.user.entity.Account;
+import xyz.sanjiaomao.user.domain.user.entity.Role;
+import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
+
+import java.util.List;
 
 /**
  * <pre>
@@ -12,7 +17,9 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
  */
 public interface AccountRepository {
 
-  AccountDO save(AccountDO accountDO);
+  AccountDO save(UserAggregation aggregation);
 
-  AccountDO findById(Long id);
+  Account findActById(Long id);
+
+  List<Role> findRoleById(Long id);
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveUserCmd;
 import xyz.sanjiaomao.user.application.service.UserOptService;
 import xyz.sanjiaomao.user.interfaces.assembler.UserAssembler;
-import xyz.sanjiaomao.user.interfaces.dto.UserDTO;
+import xyz.sanjiaomao.user.interfaces.dto.SaveUserDTO;
 
 @RequestMapping("/user")
 @RestController
@@ -23,7 +23,7 @@ public class UserOptController {
   private UserAssembler userAssembler;
 
   @PostMapping
-  public Boolean save(@RequestBody @Validated UserDTO dto){
+  public Boolean save(@RequestBody @Validated SaveUserDTO dto){
     SaveUserCmd cmd = userAssembler.convert(dto);
     userOptService.save(cmd);
     return true;

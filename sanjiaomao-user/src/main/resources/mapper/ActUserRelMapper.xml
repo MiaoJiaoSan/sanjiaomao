@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.sanjiaomao.user.infrastructure.repository.mapper.ActUserRelMapper" >
+  <resultMap id="BaseResultMap" type="xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="act_id" property="actId" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into `act_user_rel` (`id`, `user_id`, `act_id`)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},#{actId,jdbcType=BIGINT})
+  </insert>
+  <update id="update" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.ActUserRelDO">
+    update `act_user_rel` set
+    <if test="userId">
+        `user_id` = #{userId,jdbcType=BIGINT},
+    </if>
+    <if test="actId">
+        `act_id` = #{actId,jdbcType=BIGINT},
+    </if>
+    `version` = #{version,jdbcType=BIGINT} + 1
+    where `id` = #{id,jdbcType=BIGINT} and `version` = #{version,jdbcType=BIGINT}
+  </update>
+  <select id="findByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+    select * from `act_user_rel` where `user_id` = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="findByActId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from `act_user_rel` where `user_id` = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="findByUserIdAndActId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from `act_user_rel` where `user_id` = #{userId,jdbcType=BIGINT} and `act_id` = #{actId,jdbcType=BIGINT}
+  </select>
+</mapper>

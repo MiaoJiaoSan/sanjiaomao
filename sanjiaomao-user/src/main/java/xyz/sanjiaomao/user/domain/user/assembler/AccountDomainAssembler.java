@@ -1,6 +1,7 @@
 package xyz.sanjiaomao.user.domain.user.assembler;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import xyz.sanjiaomao.user.domain.user.entity.Account;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
 
@@ -17,4 +18,8 @@ public interface AccountDomainAssembler {
 
 
   AccountDO convert(Account account);
+
+  Account convert(AccountDO accountDO);
+
+  void convert(Account account, @MappingTarget AccountDO accountDO);
 }

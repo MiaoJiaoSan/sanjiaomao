@@ -11,7 +11,9 @@ import lombok.Data;
  * create by 2020-12-28 00:39
  */
 @Data
-public class UserDTO {
+public class SaveUserDTO {
+
+  private Long id;
 
   private Long actId;
 
