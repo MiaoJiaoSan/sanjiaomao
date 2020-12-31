@@ -1,9 +1,7 @@
 package xyz.sanjiaomao.user.domain.user.assembler;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 import xyz.sanjiaomao.user.domain.user.entity.User;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
 
