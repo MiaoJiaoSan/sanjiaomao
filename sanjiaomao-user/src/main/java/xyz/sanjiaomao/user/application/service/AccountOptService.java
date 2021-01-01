@@ -3,14 +3,13 @@ package xyz.sanjiaomao.user.application.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.sanjiaomao.shared.autoconfiguration.snowflake.SnowflakeUtil;
+import xyz.sanjiaomao.shared.snowflake.SnowflakeUtil;
 import xyz.sanjiaomao.user.application.cmd.opt.AddRoleCmd;
+import xyz.sanjiaomao.user.application.cmd.opt.ModifyActCmd;
+import xyz.sanjiaomao.user.application.cmd.opt.RemoveRoleCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveActCmd;
-import xyz.sanjiaomao.user.domain.user.entity.Account;
-import xyz.sanjiaomao.user.domain.user.entity.Role;
-import xyz.sanjiaomao.user.domain.user.service.AccountDomainService;
-
-import java.util.Optional;
+import xyz.sanjiaomao.user.domain.account.Account;
+import xyz.sanjiaomao.user.domain.account.service.AccountDomainService;
 
 /**
  * <pre>
@@ -29,18 +28,25 @@ public class AccountOptService {
 
   @Transactional(rollbackFor = Exception.class)
   public Boolean save(SaveActCmd cmd) {
-    Account account = new Account(Optional.ofNullable(cmd.getId()).orElse(SnowflakeUtil.ACCOUNT.nextId()),
+    Account account = new Account(SnowflakeUtil.ACCOUNT.nextId(),
         cmd.getUsername(), cmd.getPassword(), cmd.getNickname(), cmd.getEmail(), cmd.getPhone());
-    accountDomainService.save(account);
-    return true;
+    return accountDomainService.save(account);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public Boolean modify(ModifyActCmd cmd) {
+    Account account = new Account(cmd.getId(),
+        cmd.getUsername(), cmd.getPassword(), cmd.getNickname(), cmd.getEmail(), cmd.getPhone());
+    return accountDomainService.modify(account);
   }
 
   @Transactional(rollbackFor = Exception.class)
   public Boolean addRole(AddRoleCmd cmd) {
+    return accountDomainService.addRole(cmd.getActId(), cmd.getRoleId());
+  }
 
-    Account account = new Account(cmd.getActId());
-    Role role = new Role(cmd.getRoleId());
-    accountDomainService.addRole(account, role);
-    return true;
+  @Transactional(rollbackFor = Exception.class)
+  public Boolean removeRole(RemoveRoleCmd cmd) {
+    return accountDomainService.removeRole(cmd.getActId(), cmd.getRoleId());
   }
 }

@@ -13,6 +13,7 @@
         <module>sanjiaomao-eureka</module>
         <module>shared</module>
         <module>sanjiaomao-sql</module>
+        <module>sanjiaomao-auth</module>
     </modules>
 
     <properties>

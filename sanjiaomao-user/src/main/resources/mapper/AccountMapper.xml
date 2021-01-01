@@ -12,7 +12,8 @@
         <result column="version" property="version" jdbcType="BIGINT"/>
     </resultMap>
 
-    <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO"
+            useGeneratedKeys="true" keyProperty="id">
         insert into `account`
         (
          `id`,

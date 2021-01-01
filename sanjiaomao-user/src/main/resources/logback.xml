@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="logDir" value="/home/miaojiaosan/supplier_center/logs"/>
+    <property name="logDir" value="/opt/user/logs"/>
     <property name="logName" value="user"/>
 
     <conversionRule conversionWord="traceId"

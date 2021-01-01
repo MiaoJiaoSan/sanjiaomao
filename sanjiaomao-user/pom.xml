@@ -50,7 +50,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>xyz.sanjiaomao</groupId>
             <artifactId>shared</artifactId>

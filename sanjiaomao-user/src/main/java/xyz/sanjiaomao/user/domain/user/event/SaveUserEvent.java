@@ -2,7 +2,6 @@ package xyz.sanjiaomao.user.domain.user.event;
 
 import lombok.Data;
 import org.springframework.context.ApplicationEvent;
-import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
 
 /**
  * <pre>
@@ -18,11 +17,14 @@ public class SaveUserEvent extends ApplicationEvent {
    * Create a new {@code ApplicationEvent}.
    *
    * @param aggregation the object on which the event initially occurred or with
-   *               which the event is associated (never {@code null})
+   * which the event is associated (never {@code null})
    */
-  private UserAggregation aggregation;
-  public SaveUserEvent(UserAggregation aggregation) {
-    super(aggregation);
-    this.aggregation = aggregation;
+  private Long userId;
+  private Long actId;
+
+  public SaveUserEvent(Long userId, Long actId) {
+    super("SaveUserEvent");
+    this.userId = userId;
+    this.actId = actId;
   }
 }

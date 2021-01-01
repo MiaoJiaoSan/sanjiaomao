@@ -1,6 +1,6 @@
 package xyz.sanjiaomao.user.domain.user.repository;
 
-import xyz.sanjiaomao.user.domain.user.entity.UserAggregation;
+import xyz.sanjiaomao.user.domain.user.User;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
 
 /**
@@ -13,7 +13,9 @@ import xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO;
  */
 public interface UserRepository {
 
-  Boolean save(UserAggregation aggregation);
+  Boolean save(User user);
+
+  Boolean modify(User user);
 
 
   UserDO findById(Long id);

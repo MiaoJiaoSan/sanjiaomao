@@ -24,6 +24,4 @@ public class SaveUserCmd {
   private Integer gender;
 
   private String idCard;
-
-  private String photo;
 }

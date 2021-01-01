@@ -19,23 +19,22 @@ create table account
     phone    varchar(64)     default '' not null comment '电话',
     photo    blob comment '图片',
     version  bigint unsigned default 0  not null comment 'version'
-) charset utf8mb4 comment '账号';
+) charset = utf8mb4 comment '账号';
 
-
-create table act_user_rel
+create table user_act_rel
 (
     id      bigint unsigned auto_increment primary key,
     user_id bigint unsigned           not null,
     act_id  bigint unsigned           not null,
     version bigint unsigned default 0 not null comment 'version'
-) charset utf8mb4 comment '账号用户关系';
+) charset = utf8mb4 comment '账号用户关系';
 
 create table role
 (
     id      bigint unsigned auto_increment primary key,
     name    varchar(20)               not null comment '角色名称',
     version bigint unsigned default 0 not null comment 'version'
-) charset utf8mb4 comment '角色';
+) charset = utf8mb4 comment '角色';
 
 create table act_role_rel
 (
@@ -43,4 +42,21 @@ create table act_role_rel
     act_id  bigint unsigned           not null comment '账号',
     role_id bigint unsigned           not null comment '角色id',
     version bigint unsigned default 0 not null comment 'version'
-) charset utf8mb4 comment '账号角色关系';
+) charset = utf8mb4 comment '账号角色关系';
+
+create table resource
+(
+    id      bigint unsigned auto_increment primary key,
+    name    varchar(25)               not null comment '账号',
+    url     varchar(255)              not null comment '资源路径',
+    version bigint unsigned default 0 not null comment 'version'
+) charset = utf8mb4 comment '资源';
+
+create table role_resource_rel
+(
+    id          bigint unsigned auto_increment primary key,
+    role_id     bigint unsigned           not null comment '角色id',
+    resource_id bigint unsigned           not null comment '资源id',
+    privilege   tinyint(4) unsigned       not null comment '操作权限',
+    version     bigint unsigned default 0 not null comment 'version'
+) charset = utf8mb4 comment '角色资源关系';

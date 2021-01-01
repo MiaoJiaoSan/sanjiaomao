@@ -10,7 +10,8 @@
         <result column="version" property="version" jdbcType="BIGINT"/>
     </resultMap>
 
-    <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="xyz.sanjiaomao.user.infrastructure.repository.entity.UserDO"
+            useGeneratedKeys="true" keyProperty="id">
         insert into `user`
         (
          `id`,
