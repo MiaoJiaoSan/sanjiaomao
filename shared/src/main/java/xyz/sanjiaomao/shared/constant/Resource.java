@@ -10,6 +10,8 @@ package xyz.sanjiaomao.shared.constant;
  */
 public interface Resource {
 
-  String ACCOUNT = "http://user/account?username={username}&password={password}";
+  String ACCOUNT_SAVE = "http://user/account";
+
+  String ACCOUNT_USERNAME_PASSWORD = "http://user/account?username={username}&password={password}";
 
 }

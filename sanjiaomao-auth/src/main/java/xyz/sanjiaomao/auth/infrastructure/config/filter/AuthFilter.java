@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,13 +41,15 @@ public class AuthFilter implements Filter {
     ResponseWrapper wrapper = new ResponseWrapper((HttpServletResponse) response);
     Cookie[] cookies = httpServletRequest.getCookies();
     if (Objects.nonNull(cookies)) {
-      Optional<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.authorization)).findFirst();
+      Optional<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.AUTHORIZATION)).findFirst();
       if (authCookie.isPresent() && check(authCookie.get().getValue())) {
+        PrintWriter writer = response.getWriter();
+        writer.write("true");
         return;
       }
     }
     chain.doFilter(httpServletRequest, wrapper);
-    Cookie cookie = Optional.of(wrapper.getCookie()).orElse(new Cookie(AuthConstant.authorization, StrUtil.EMPTY));
+    Cookie cookie = Optional.of(wrapper.getCookie()).orElse(new Cookie(AuthConstant.AUTHORIZATION, StrUtil.EMPTY));
     check(cookie.getValue());
 
   }
@@ -75,7 +78,7 @@ public class AuthFilter implements Filter {
     @Override
     public void addCookie(Cookie cookie) {
       super.addCookie(cookie);
-      Branch branch = () -> Objects.equals(AuthConstant.authorization, cookie.getName());
+      Branch branch = () -> Objects.equals(AuthConstant.AUTHORIZATION, cookie.getName());
       branch.trueAndThen(() -> setCookie(cookie));
     }
   }
