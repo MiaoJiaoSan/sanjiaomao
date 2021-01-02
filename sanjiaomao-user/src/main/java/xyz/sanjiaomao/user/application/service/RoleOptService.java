@@ -36,7 +36,7 @@ public class RoleOptService {
   }
 
   @Transactional(rollbackFor = Exception.class)
-  public Boolean modifyPrivilege(ModifyPrivilegeCmd cmd){
+  public Boolean modifyPrivilege(ModifyPrivilegeCmd cmd) {
     return roleDomainService.modifyPrivilege(cmd);
   }
 }

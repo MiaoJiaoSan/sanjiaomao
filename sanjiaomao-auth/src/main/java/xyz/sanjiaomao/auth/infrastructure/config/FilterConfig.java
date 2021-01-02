@@ -19,7 +19,7 @@ public class FilterConfig {
   }
 
   @Bean
-  public FilterRegistrationBean<AuthFilter> authFilter(RedisTemplate<String, String> redisTemplate){
+  public FilterRegistrationBean<AuthFilter> authFilter(RedisTemplate<String, String> redisTemplate) {
     FilterRegistrationBean<AuthFilter> filterRegistrationBean = new FilterRegistrationBean<>(new AuthFilter(redisTemplate));
     filterRegistrationBean.setOrder(1);
     filterRegistrationBean.setName("authFilter");

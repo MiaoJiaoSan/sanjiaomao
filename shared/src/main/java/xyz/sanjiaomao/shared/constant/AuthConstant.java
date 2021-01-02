@@ -11,4 +11,6 @@ package xyz.sanjiaomao.shared.constant;
 public interface AuthConstant {
 
   String authorization = "authorization";
+
+  String TOKEN_PREFIX = "TOKEN:";
 }

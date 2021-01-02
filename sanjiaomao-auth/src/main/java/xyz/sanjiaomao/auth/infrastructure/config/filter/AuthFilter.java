@@ -1,18 +1,17 @@
 package xyz.sanjiaomao.auth.infrastructure.config.filter;
 
-import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
+import xyz.sanjiaomao.shared.function.Branch;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class AuthFilter implements Filter {
 
   private final RedisTemplate<String, String> redisTemplate;
 
-  public AuthFilter(RedisTemplate<String, String> redisTemplate){
+  public AuthFilter(RedisTemplate<String, String> redisTemplate) {
     this.redisTemplate = redisTemplate;
   }
 
@@ -38,37 +37,46 @@ public class AuthFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+    ResponseWrapper wrapper = new ResponseWrapper((HttpServletResponse) response);
     Cookie[] cookies = httpServletRequest.getCookies();
-    Optional<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.authorization)).findFirst();
-    String token;
-    if(authCookie.isPresent()){
-      token = authCookie.get().getValue();
-
-    } else {
-      chain.doFilter(httpServletRequest, httpServletResponse);
-      OutputStream outputStream = httpServletResponse.getOutputStream();
-
+    if (Objects.nonNull(cookies)) {
+      Optional<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.authorization)).findFirst();
+      if (authCookie.isPresent() && check(authCookie.get().getValue())) {
+        return;
+      }
     }
-//    Optional.ofNullable(redisTemplate.opsForValue().get(token)).ifPresent(userInfo -> {
-//      try(PrintWriter writer = httpServletResponse.getWriter()){
-//        writer.write("{}");
-//      }catch (Exception e){
-//        log.error("auth error", e);
-//      }
-//    });
+    chain.doFilter(httpServletRequest, wrapper);
+    Cookie cookie = Optional.of(wrapper.getCookie()).orElse(new Cookie(AuthConstant.authorization, StrUtil.EMPTY));
+    check(cookie.getValue());
+
+  }
+
+  public boolean check(String token) {
+    return Optional.ofNullable(redisTemplate.opsForValue().get(token)).isPresent();
   }
 
 
   public static class ResponseWrapper extends HttpServletResponseWrapper {
 
-    private ByteArrayOutputStream buffer;
-
-    private ServletOutputStream out;
+    private Cookie cookie;
 
     public ResponseWrapper(HttpServletResponse response) {
       super(response);
-      buffer = new ByteArrayOutputStream();
+    }
+
+    public void setCookie(Cookie cookie) {
+      this.cookie = cookie;
+    }
+
+    public Cookie getCookie() {
+      return cookie;
+    }
+
+    @Override
+    public void addCookie(Cookie cookie) {
+      super.addCookie(cookie);
+      Branch branch = () -> Objects.equals(AuthConstant.authorization, cookie.getName());
+      branch.trueAndThen(() -> setCookie(cookie));
     }
   }
 }

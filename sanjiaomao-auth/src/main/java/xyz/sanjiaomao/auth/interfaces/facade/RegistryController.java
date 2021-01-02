@@ -23,7 +23,7 @@ public class RegistryController {
 
 
   @PostMapping
-  public Boolean registry(){
+  public Boolean registry() {
     return true;
   }
 }

@@ -2,17 +2,24 @@ package xyz.sanjiaomao.auth.interfaces.facade;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import xyz.sanjiaomao.auth.application.cmd.opt.LoginCmd;
+import xyz.sanjiaomao.shared.constant.AuthConstant;
+import xyz.sanjiaomao.shared.constant.Resource;
 import xyz.sanjiaomao.shared.dto.AccountDTO;
 
 import javax.security.auth.message.AuthException;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <pre>
@@ -28,15 +35,20 @@ public class LoginController {
 
   @Autowired
   private RestTemplate restTemplate;
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
+  @Autowired
+  private HttpServletResponse httpServletResponse;
 
 
   @PostMapping
-  private Boolean login(LoginCmd cmd) throws AuthException {
-    Map<String, String> variable = new HashMap<>();
-    variable.put("username", cmd.getUsername());
-    variable.put("password", cmd.getPassword());
-    AccountDTO dto = restTemplate.getForObject("http://user/account", AccountDTO.class, variable);
+  private Boolean login(@RequestBody @Validated LoginCmd cmd) throws AuthException {
+    AccountDTO dto = restTemplate.getForObject(Resource.ACCOUNT, AccountDTO.class, cmd.getUsername(), cmd.getPassword());
     Assert.notNull(dto, AuthException::new);
+    String token = AuthConstant.TOKEN_PREFIX + IdUtil.simpleUUID();
+    redisTemplate.opsForValue().set(token, JSONUtil.toJsonStr(dto));
+    redisTemplate.expire(token, 30, TimeUnit.MINUTES);
+    httpServletResponse.addCookie(new Cookie(AuthConstant.authorization, token));
     return true;
   }
 }

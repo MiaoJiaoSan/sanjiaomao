@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.infrastructure.config;
+package xyz.sanjiaomao.shared.log;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;

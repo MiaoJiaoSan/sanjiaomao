@@ -28,7 +28,7 @@ public class RoleResourceRepositoryImpl implements RoleResourceRepository {
   @Transactional(rollbackFor = Exception.class)
   public Boolean save(Long roleId, Long resourceId, Integer privilege) {
     RoleResourceRelDO resourceRelDO = roleResourceRelMapper.findByRoleIdAndResourceId(roleId, resourceId);
-    if(Objects.isNull(resourceRelDO)){
+    if (Objects.isNull(resourceRelDO)) {
       RoleResourceRelDO roleResourceRelDO = new RoleResourceRelDO();
       roleResourceRelDO.setRoleId(roleId);
       roleResourceRelDO.setRoleId(resourceId);
@@ -42,7 +42,7 @@ public class RoleResourceRepositoryImpl implements RoleResourceRepository {
   @Transactional(rollbackFor = Exception.class)
   public Boolean modify(Long roleId, Long resourceId, Integer privilege) {
     RoleResourceRelDO resourceRelDO = roleResourceRelMapper.findByRoleIdAndResourceId(roleId, resourceId);
-    if(Objects.nonNull(resourceRelDO)) {
+    if (Objects.nonNull(resourceRelDO)) {
       resourceRelDO.setPrivilege(privilege);
       roleResourceRelMapper.update(resourceRelDO);
     }
@@ -51,13 +51,13 @@ public class RoleResourceRepositoryImpl implements RoleResourceRepository {
 
   @EventListener
   @Transactional(rollbackFor = Exception.class)
-  public void listener(AddResourceEvent event){
+  public void listener(AddResourceEvent event) {
     save(event.getRoleId(), event.getResourceId(), event.getPrivilege());
   }
 
   @EventListener
   @Transactional(rollbackFor = Exception.class)
-  public void listener(ModifyPrivilegeEvent event){
+  public void listener(ModifyPrivilegeEvent event) {
     modify(event.getRoleId(), event.getResourceId(), event.getPrivilege());
   }
 

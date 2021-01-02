@@ -39,7 +39,7 @@ public class RoleDomainService {
   }
 
   @Transactional(rollbackFor = Exception.class)
-  public Boolean modifyPrivilege(ModifyPrivilegeCmd cmd){
+  public Boolean modifyPrivilege(ModifyPrivilegeCmd cmd) {
     eventPublisher.publishEvent(new ModifyPrivilegeEvent(cmd.getRoleId(), cmd.getResourceId(), cmd.getPrivilege()));
     return true;
   }

@@ -1,6 +1,7 @@
 package xyz.sanjiaomao.user.infrastructure.repository.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import xyz.sanjiaomao.user.infrastructure.repository.entity.AccountDO;
 
 @Mapper
@@ -12,5 +13,5 @@ public interface AccountMapper {
 
   AccountDO findById(Long id);
 
-  AccountDO findByUsernameAndPassword(String username, String password);
+  AccountDO findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }

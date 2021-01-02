@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.user.infrastructure.repository.mapper;
+package xyz.sanjiaomao.user.infrastructure.repository;
 
 import org.springframework.stereotype.Repository;
 import xyz.sanjiaomao.user.domain.shared.repository.RoleResourceRepository;
@@ -16,7 +16,7 @@ public class RoleResourceRelRepository implements RoleResourceRepository {
 
 
   @Override
-  public Boolean save(Long roleId, Long resourceId) {
+  public Boolean save(Long roleId, Long resourceId, Integer privilege) {
     return null;
   }
 
