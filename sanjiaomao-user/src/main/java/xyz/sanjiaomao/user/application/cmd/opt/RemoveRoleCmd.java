@@ -2,6 +2,8 @@ package xyz.sanjiaomao.user.application.cmd.opt;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <pre>
  *
@@ -13,7 +15,9 @@ import lombok.Data;
 @Data
 public class RemoveRoleCmd {
 
+  @NotNull(message = "账号不能为空")
   private Long actId;
 
+  @NotNull(message = "角色不能为空")
   private Long roleId;
 }

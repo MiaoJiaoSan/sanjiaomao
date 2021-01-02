@@ -2,6 +2,8 @@ package xyz.sanjiaomao.user.application.cmd.opt;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <pre>
  *
@@ -13,5 +15,6 @@ import lombok.Data;
 @Data
 public class SaveRoleCmd {
 
+  @NotNull(message = "角色名称不能为空")
   private String name;
 }
