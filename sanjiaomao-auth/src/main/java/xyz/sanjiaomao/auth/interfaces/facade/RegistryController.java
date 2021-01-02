@@ -53,6 +53,7 @@ public class RegistryController {
   public Boolean registry(@RequestBody @Validated RegistryCmd cmd) throws AuthException {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.parseMediaType("application/json; charset=UTF-8"));
+    headers.set("referer", AuthConstant.AUTHORIZATION);
     HttpEntity<RegistryCmd> entity = new HttpEntity<>(cmd, headers);
     ResponseEntity<Boolean> result = restTemplate.postForEntity(Resource.ACCOUNT_SAVE, entity, Boolean.class);
     if(Objects.isNull(result.getBody())){

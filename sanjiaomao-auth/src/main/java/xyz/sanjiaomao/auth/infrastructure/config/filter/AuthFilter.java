@@ -3,6 +3,7 @@ package xyz.sanjiaomao.auth.infrastructure.config.filter;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
 import xyz.sanjiaomao.shared.function.Branch;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -55,7 +57,11 @@ public class AuthFilter implements Filter {
   }
 
   public boolean check(String token) {
-    return Optional.ofNullable(redisTemplate.opsForValue().get(token)).isPresent();
+
+    DefaultRedisScript<String> script = new DefaultRedisScript<>(AuthConstant.TOKEN_CHECK);
+    script.setResultType(String.class);
+    String executeRst = redisTemplate.execute(script, Collections.singletonList(token));
+    return Optional.ofNullable(executeRst).isPresent();
   }
 
 

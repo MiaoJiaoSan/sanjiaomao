@@ -6,9 +6,11 @@ import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import xyz.sanjiaomao.auth.application.cmd.opt.LoginCmd;
+import xyz.sanjiaomao.auth.application.cmd.opt.RegistryCmd;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
 import xyz.sanjiaomao.shared.constant.Resource;
 import xyz.sanjiaomao.shared.dto.AccountDTO;
@@ -39,7 +41,13 @@ public class LoginOptService {
   private HttpServletResponse httpServletResponse;
 
   public Boolean login(LoginCmd cmd) throws AuthException {
-    AccountDTO dto = restTemplate.getForObject(Resource.ACCOUNT_USERNAME_PASSWORD, AccountDTO.class, cmd.getUsername(), cmd.getPassword());
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.parseMediaType("application/json; charset=UTF-8"));
+    headers.set("referer", AuthConstant.AUTHORIZATION);
+    HttpEntity<LoginCmd> entity = new HttpEntity<>(null, headers);
+    ResponseEntity<AccountDTO> response = restTemplate.exchange(Resource.ACCOUNT_USERNAME_PASSWORD, HttpMethod.GET, entity, AccountDTO.class, cmd.getUsername(), cmd.getPassword());
+    Assert.notNull(response, AuthException::new);
+    AccountDTO dto = response.getBody();
     Assert.notNull(dto, AuthException::new);
     String token = AuthConstant.TOKEN_PREFIX + IdUtil.simpleUUID();
     DefaultRedisScript<Long> script = new DefaultRedisScript<>(AuthConstant.TOKEN_SCRIPT_NO_REPEAT);
