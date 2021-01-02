@@ -1,6 +1,7 @@
 package xyz.sanjiaomao.user.interfaces.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class AccountQryController {
   private AccountQryService accountQryService;
 
   @GetMapping
-  public AccountDTO findByUsernameAndPassword(UsernameAndPwdQryCmd cmd) {
+  public AccountDTO findByUsernameAndPassword(@Validated UsernameAndPwdQryCmd cmd) {
     return accountQryService.findByUsernameAndPassword(cmd);
   }
 
