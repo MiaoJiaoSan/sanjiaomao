@@ -46,6 +46,7 @@ public class LoginController {
 
   @PostMapping
   private ResultDTO<Boolean> login(@RequestBody @Validated LoginCmd cmd) throws AuthException {
-    return new ResultDTO<>(loginOptService.login(cmd));
+    Boolean login = loginOptService.login(cmd);
+    return new ResultDTO<>(login, login?"登录成功":"登录失败");
   }
 }

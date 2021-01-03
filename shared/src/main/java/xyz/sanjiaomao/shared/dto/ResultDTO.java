@@ -25,4 +25,9 @@ public class ResultDTO<T> extends BaseDTO {
     this.result = result;
   }
 
+  public ResultDTO(T result, String msg){
+    this.result = result;
+    this.message = msg;
+  }
+
 }

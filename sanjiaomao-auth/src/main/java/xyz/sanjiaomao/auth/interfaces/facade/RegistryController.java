@@ -58,8 +58,9 @@ public class RegistryController {
     HttpEntity<RegistryCmd> entity = new HttpEntity<>(cmd, headers);
     ResponseEntity<Boolean> result = restTemplate.postForEntity(Resource.ACCOUNT_SAVE, entity, Boolean.class);
     if(Objects.isNull(result.getBody())){
-      return new ResultDTO<>(false);
+      return new ResultDTO<>(false,"注册失败");
     }
-    return new ResultDTO<>(loginOptService.login(new LoginCmd(cmd.getUsername(), cmd.getPassword())));
+    Boolean login = loginOptService.login(new LoginCmd(cmd.getUsername(), cmd.getPassword()));
+    return new ResultDTO<>(login, login?"注册成功":"注册失败");
   }
 }
