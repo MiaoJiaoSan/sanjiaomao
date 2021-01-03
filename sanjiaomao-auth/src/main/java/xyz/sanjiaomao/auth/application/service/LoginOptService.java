@@ -49,6 +49,7 @@ public class LoginOptService {
     Assert.notNull(response, AuthException::new);
     AccountDTO dto = response.getBody();
     Assert.notNull(dto, AuthException::new);
+    Assert.notNull(dto.getId(), AuthException::new);
     String token = AuthConstant.TOKEN_PREFIX + IdUtil.simpleUUID();
     DefaultRedisScript<Long> script = new DefaultRedisScript<>(AuthConstant.TOKEN_SCRIPT_NO_REPEAT);
     script.setResultType(Long.class);

@@ -3,6 +3,7 @@ package xyz.sanjiaomao.user.interfaces.facade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.user.application.cmd.opt.AddResourceCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.ModifyPrivilegeCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveRoleCmd;
@@ -24,20 +25,17 @@ public class RoleOptController {
   private RoleOptService roleOptService;
 
   @PostMapping
-  public Boolean save(@RequestBody @Validated SaveRoleCmd cmd) {
-    roleOptService.save(cmd);
-    return true;
+  public ResultDTO<Boolean> save(@RequestBody @Validated SaveRoleCmd cmd) {
+    return new ResultDTO<>(roleOptService.save(cmd));
   }
 
   @PostMapping("/addResource")
-  public Boolean addResource(@RequestBody @Validated AddResourceCmd cmd) {
-    roleOptService.addResource(cmd);
-    return true;
+  public ResultDTO<Boolean> addResource(@RequestBody @Validated AddResourceCmd cmd) {
+    return new ResultDTO<>(roleOptService.addResource(cmd));
   }
 
   @PutMapping("/modifyPrivilege")
-  public Boolean modifyPrivilege(@RequestBody @Validated ModifyPrivilegeCmd cmd) {
-    roleOptService.modifyPrivilege(cmd);
-    return true;
+  public ResultDTO<Boolean> modifyPrivilege(@RequestBody @Validated ModifyPrivilegeCmd cmd) {
+    return new ResultDTO<>(roleOptService.modifyPrivilege(cmd));
   }
 }

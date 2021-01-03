@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.user.application.cmd.opt.AddRoleCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.ModifyActCmd;
 import xyz.sanjiaomao.user.application.cmd.opt.SaveActCmd;
@@ -30,16 +31,16 @@ public class AccountOptController {
   private AccountOptService accountOptService;
 
   @PostMapping
-  public Boolean save(@RequestBody @Validated SaveActCmd cmd) {
-    return accountOptService.save(cmd);
+  public ResultDTO<Boolean> save(@RequestBody @Validated SaveActCmd cmd) {
+    return new ResultDTO<>(accountOptService.save(cmd));
   }
 
-  public Boolean modify(@RequestBody @Validated ModifyActCmd cmd) {
-    return accountOptService.modify(cmd);
+  public ResultDTO<Boolean> modify(@RequestBody @Validated ModifyActCmd cmd) {
+    return new ResultDTO<>(accountOptService.modify(cmd));
   }
 
   @PostMapping("/addRole")
-  public Boolean addRole(@RequestBody @Validated AddRoleCmd cmd) {
-    return accountOptService.addRole(cmd);
+  public ResultDTO<Boolean> addRole(@RequestBody @Validated AddRoleCmd cmd) {
+    return new ResultDTO<>(accountOptService.addRole(cmd));
   }
 }

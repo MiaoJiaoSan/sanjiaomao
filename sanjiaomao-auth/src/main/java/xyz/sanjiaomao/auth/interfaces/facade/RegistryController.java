@@ -23,6 +23,7 @@ import xyz.sanjiaomao.auth.application.service.LoginOptService;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
 import xyz.sanjiaomao.shared.constant.Resource;
 import xyz.sanjiaomao.shared.dto.AccountDTO;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 
 import javax.security.auth.message.AuthException;
 import javax.servlet.http.Cookie;
@@ -50,16 +51,15 @@ public class RegistryController {
   private LoginOptService loginOptService;
 
   @PostMapping
-  public Boolean registry(@RequestBody @Validated RegistryCmd cmd) throws AuthException {
+  public ResultDTO<Boolean> registry(@RequestBody @Validated RegistryCmd cmd) throws AuthException {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.parseMediaType("application/json; charset=UTF-8"));
     headers.set("referer", AuthConstant.AUTHORIZATION);
     HttpEntity<RegistryCmd> entity = new HttpEntity<>(cmd, headers);
     ResponseEntity<Boolean> result = restTemplate.postForEntity(Resource.ACCOUNT_SAVE, entity, Boolean.class);
     if(Objects.isNull(result.getBody())){
-      return false;
+      return new ResultDTO<>(false);
     }
-    loginOptService.login(new LoginCmd(cmd.getUsername(), cmd.getPassword()));
-    return true;
+    return new ResultDTO<>(loginOptService.login(new LoginCmd(cmd.getUsername(), cmd.getPassword())));
   }
 }

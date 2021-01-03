@@ -7,12 +7,14 @@ import cn.hutool.json.JSONUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
@@ -41,13 +43,19 @@ public class AuthFilter implements Filter {
       chain.doFilter(request, response);
       return;
     }
-
+    ResultDTO<Boolean> dto = new ResultDTO<>(false);
+    dto.setMessage("请重新登录");
+    String result = JSONUtil.toJsonStr(dto);
     Cookie[] cookies = httpServletRequest.getCookies();
     if (Objects.isNull(cookies)) {
+      PrintWriter writer = response.getWriter();
+      writer.write(result);
       return;
     }
     Optional<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.AUTHORIZATION)).findFirst();
     if (!authCookie.isPresent()) {
+      PrintWriter writer = response.getWriter();
+      writer.write(result);
       return;
     }
     String oldToken = authCookie.get().getValue();
@@ -55,6 +63,8 @@ public class AuthFilter implements Filter {
     script.setResultType(String.class);
     String executeRst = redisTemplate.execute(script, Collections.singletonList(oldToken));
     if (Objects.isNull(executeRst)) {
+      PrintWriter writer = response.getWriter();
+      writer.write(result);
       return;
     }
 

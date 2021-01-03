@@ -18,6 +18,7 @@ import xyz.sanjiaomao.auth.application.service.LoginOptService;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
 import xyz.sanjiaomao.shared.constant.Resource;
 import xyz.sanjiaomao.shared.dto.AccountDTO;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 
 import javax.security.auth.message.AuthException;
 import javax.servlet.http.Cookie;
@@ -44,8 +45,7 @@ public class LoginController {
 
 
   @PostMapping
-  private Boolean login(@RequestBody @Validated LoginCmd cmd) throws AuthException {
-    loginOptService.login(cmd);
-    return true;
+  private ResultDTO<Boolean> login(@RequestBody @Validated LoginCmd cmd) throws AuthException {
+    return new ResultDTO<>(loginOptService.login(cmd));
   }
 }

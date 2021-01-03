@@ -9,18 +9,20 @@ import lombok.EqualsAndHashCode;
  * </pre>
  *
  * @author 李宇飞
- * create by 2021-01-01 23:19
+ * create by 2021-01-03 18:29
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AccountDTO extends BaseDTO {
+public class ResultDTO<T> extends BaseDTO {
 
-  private Long id;
+  private T result;
 
-  private String nickname;
+  private ResultDTO(){
 
-  private String email;
+  }
 
-  private String phone;
+  public ResultDTO(T result){
+    this.result = result;
+  }
+
 }
-

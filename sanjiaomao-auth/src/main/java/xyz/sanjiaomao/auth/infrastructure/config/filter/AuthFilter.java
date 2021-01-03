@@ -1,10 +1,12 @@
 package xyz.sanjiaomao.auth.infrastructure.config.filter;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.shared.function.Branch;
 
 import javax.servlet.*;
@@ -46,7 +48,9 @@ public class AuthFilter implements Filter {
       Optional<Cookie> authCookie = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.AUTHORIZATION)).findFirst();
       if (authCookie.isPresent() && check(authCookie.get().getValue())) {
         PrintWriter writer = response.getWriter();
-        writer.write("true");
+        ResultDTO<Boolean> result = new ResultDTO<>(true);
+        result.setMessage("登录成功");
+        writer.write(JSONUtil.toJsonStr(result));
         return;
       }
     }

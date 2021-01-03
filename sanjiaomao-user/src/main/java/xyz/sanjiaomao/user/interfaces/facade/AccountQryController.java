@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.sanjiaomao.shared.dto.AccountDTO;
+import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.user.application.cmd.qry.UsernameAndPwdQryCmd;
 import xyz.sanjiaomao.user.application.service.AccountQryService;
 
