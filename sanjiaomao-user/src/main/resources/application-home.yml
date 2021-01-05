@@ -29,7 +29,11 @@ spring:
       #      use-global-data-source-stat: true
       #      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       #      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
-#
+  redis:
+    host: localhost
+    port: 9736
+    database: 0
+    timeout: 3000ms
+    password: redis
 
 

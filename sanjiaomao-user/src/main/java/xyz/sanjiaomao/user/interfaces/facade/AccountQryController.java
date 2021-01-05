@@ -19,7 +19,7 @@ import xyz.sanjiaomao.user.application.service.AccountQryService;
  * create by 2021-01-01 23:25
  */
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/accountQry")
 public class AccountQryController {
 
   @Autowired

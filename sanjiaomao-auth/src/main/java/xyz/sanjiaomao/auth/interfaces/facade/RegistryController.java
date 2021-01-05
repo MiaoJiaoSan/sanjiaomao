@@ -56,8 +56,9 @@ public class RegistryController {
     headers.setContentType(MediaType.parseMediaType("application/json; charset=UTF-8"));
     headers.set("referer", AuthConstant.AUTHORIZATION);
     HttpEntity<RegistryCmd> entity = new HttpEntity<>(cmd, headers);
-    ResponseEntity<Boolean> result = restTemplate.postForEntity(Resource.ACCOUNT_SAVE, entity, Boolean.class);
-    if(Objects.isNull(result.getBody())){
+    @SuppressWarnings("rawtypes")
+    ResponseEntity<ResultDTO> result = restTemplate.postForEntity(Resource.ACCOUNT_SAVE, entity, ResultDTO.class);
+    if(Objects.isNull(result.getBody()) || !(Boolean)result.getBody().getResult() ){
       return new ResultDTO<>(false,"注册失败");
     }
     Boolean login = loginOptService.login(new LoginCmd(cmd.getUsername(), cmd.getPassword()));

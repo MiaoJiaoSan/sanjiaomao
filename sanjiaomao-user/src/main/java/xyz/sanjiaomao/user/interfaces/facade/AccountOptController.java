@@ -21,7 +21,7 @@ import xyz.sanjiaomao.user.application.service.AccountOptService;
  * @author 李宇飞
  * create by 2020-12-27 23:44
  */
-@RequestMapping("/account")
+@RequestMapping("/accountOpt")
 @RestController
 @Slf4j
 public class AccountOptController {

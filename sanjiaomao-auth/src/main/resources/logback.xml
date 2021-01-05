@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="logDir" value="/opt/auth/logs"/>
+    <property name="logDir" value="/home/miaojiaosan/logs/auth"/>
     <property name="logName" value="auth"/>
 
     <conversionRule conversionWord="traceId"
