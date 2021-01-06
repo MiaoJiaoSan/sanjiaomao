@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>React1</title>
+</head>
+
+<body>
+    <div id="App">
+    </div>
+    <script type="text/javascript" src="../react.development.js"></script>
+    <script type="text/javascript" src="../react-dom.development.js"></script>
+    <script type="text/javascript" src="../prop-types.js"></script>
+    <script type="text/javascript" src="../babel.js"></script>
+    <script type="text/babel">
+
+
+
+        class MyComponent extends React.Component {
+            static propTypes = {
+                name: PropTypes.string.isRequired
+            }
+            //有默认值 必填校验不生效，类型校验生效
+            //说明默认值赋值在校验之前
+            //构造器之前
+            static defaultProps = {
+                name: 1
+            }
+            
+            render() {
+                const { name, age, gender } = this.props
+                return (
+                    <ul>
+                        <li>姓名：{name}</li>
+                        <li>性别：{gender}</li>
+                        <li>年龄: {age}</li>
+                    </ul>
+                )
+            }
+
+
+        }
+        
+
+        const data = { name:"tom", age: 19, gender: "女" }
+        ReactDOM.render(<MyComponent {...data} />, document.getElementById("App"));
+    </script>
+</body>
+
+</html>
