@@ -7,6 +7,6 @@ public interface UserFactory {
 
 
   static User load(UserDAO dao){
-    return new User();
+    return new User(null,null,null);
   }
 }

@@ -2,11 +2,13 @@ package xyz.sanjiaomao.user.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author miaojiaosan
  */
 @Data
-public class User {
+public class User implements Serializable {
 
   private static final long serialVersionUID = -1L;
 

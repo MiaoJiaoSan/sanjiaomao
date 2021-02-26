@@ -13,6 +13,7 @@ import xyz.sanjiaomao.user.infrastructure.dao.UserDAO;
 import xyz.sanjiaomao.user.infrastructure.factory.UserFactory;
 import xyz.sanjiaomao.user.infrastructure.repository.UserRepository;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
@@ -21,10 +22,10 @@ import java.util.concurrent.TimeUnit;
 public class LoginEventHandler {
 
   @Autowired
-  private RedisTemplate<String, Object> redisTemplate;
+  private RedisTemplate<String, Account> accountRedisTemplate;
   @Autowired
   private UserRepository userRepository;
-  @Autowired
+  @Autowired(required = false)
   private HttpServletResponse httpServletResponse;
 
 
@@ -34,8 +35,8 @@ public class LoginEventHandler {
     User user = loadUser(account);
     account.setUser(user);
     String token = IdUtil.simpleUUID();
-    redisTemplate.opsForValue().set(token, account);
-    redisTemplate.expire(token, 30L, TimeUnit.SECONDS);
+    accountRedisTemplate.opsForValue().set(token, account);
+    accountRedisTemplate.expire(token, 30L, TimeUnit.MINUTES);
     httpServletResponse.addCookie(new Cookie(Token.TOKEN, token));
   }
 

@@ -9,6 +9,8 @@ public class RegistryOpt {
 
   private String password;
 
+  private String nickname;
+
   private String rePassword;
 
   private String idCard;

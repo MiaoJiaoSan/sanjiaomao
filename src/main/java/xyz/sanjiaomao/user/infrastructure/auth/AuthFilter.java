@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
 
 public class AuthFilter implements Filter {
 
-  private RedisTemplate<String, Account> redisTemplate;
+  private final RedisTemplate<String, Account> accountRedisTemplate;
 
-  public AuthFilter(RedisTemplate<String, Account> redisTemplate) {
-    this.redisTemplate = redisTemplate;
+  public AuthFilter(RedisTemplate<String, Account> accountRedisTemplate) {
+    this.accountRedisTemplate = accountRedisTemplate;
   }
 
   @Override
@@ -28,23 +28,22 @@ public class AuthFilter implements Filter {
 
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
     String uri = httpServletRequest.getRequestURI();
-    if(uri.startsWith(Token.ACCESS_URI)) {
-      chain.doFilter(httpServletRequest, response);
-      return;
-    }
+
 
     Cookie[] cookies = httpServletRequest.getCookies();
-    Optional<Cookie> optional = Arrays.stream(cookies).filter(cookie -> Objects.equals(cookie.getName(), Token.TOKEN)).findFirst();
-    if(!optional.isPresent()){
-      return;
+    Optional<Cookie> optional = Arrays.stream(Optional.ofNullable(cookies).orElse(new Cookie[]{}))
+        .filter(cookie -> Objects.equals(cookie.getName(), Token.TOKEN)).findFirst();
+    if(optional.isPresent()){
+      String token = optional.get().getValue();
+      Account account = accountRedisTemplate.opsForValue().get(token);
+      if(Objects.isNull(account) ){
+        return;
+      }
+      accountRedisTemplate.expire(token,30L, TimeUnit.MINUTES);
     }
-    String token = optional.get().getValue();
-    Account account = redisTemplate.opsForValue().get(token);
-    if(Objects.isNull(account) ){
-      return;
-    }
-    redisTemplate.expire(token,30L, TimeUnit.SECONDS);
     chain.doFilter(httpServletRequest, response);
-
+    if(uri.startsWith(Token.ACCESS_URI)) {
+      chain.doFilter(httpServletRequest, response);
+    }
   }
 }

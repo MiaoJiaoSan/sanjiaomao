@@ -2,10 +2,11 @@ package xyz.sanjiaomao.user.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class Account {
+public class Account implements Serializable {
 
   private static final long serialVersionUID = -1L;
 
@@ -23,9 +24,10 @@ public class Account {
   }
 
 
-  public Account(String account, String password, User user) {
+  public Account(String account, String password, String nickname, User user) {
     this.account = account;
     this.password = password;
+    this.nickname = nickname;
     this.user = user;
   }
 

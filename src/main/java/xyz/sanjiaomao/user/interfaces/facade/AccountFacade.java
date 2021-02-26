@@ -2,6 +2,7 @@ package xyz.sanjiaomao.user.interfaces.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.sanjiaomao.shared.cmd.LoginOpt;
@@ -18,12 +19,12 @@ public class AccountFacade {
 
 
   @PostMapping("/registry")
-  public ResultDTO registry(RegistryOpt opt){
+  public ResultDTO registry(@RequestBody RegistryOpt opt){
     return accountService.registry(opt);
   }
 
   @PostMapping("/login")
-  public ResultDTO login(LoginOpt opt){
+  public ResultDTO login(@RequestBody LoginOpt opt){
     return accountService.login(opt);
   }
 

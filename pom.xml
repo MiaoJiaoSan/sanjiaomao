@@ -6,11 +6,7 @@
 
     <groupId>xyz.sanjiaomao</groupId>
     <artifactId>sanjiaomao</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>shared</module>
-    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,7 +14,6 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <mao.version>1.0-SNAPSHOT</mao.version>
         <boot.version>2.2.2.RELEASE</boot.version>
     </properties>
 
@@ -45,12 +40,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>1.18.10</version>
-            </dependency>
-
-            <dependency>
-                <groupId>xyz.sanjiaomao</groupId>
-                <artifactId>shared</artifactId>
-                <version>${mao.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -93,11 +82,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>xyz.sanjiaomao</groupId>
-            <artifactId>shared</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -145,4 +129,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

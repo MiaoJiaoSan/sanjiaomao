@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: user
+    name: sanjiaomao
   jackson:
     #参数意义：
     #JsonInclude.Include.ALWAYS              默认
@@ -17,4 +17,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: home
+    active: alien
+  jpa:
+    show-sql: true
