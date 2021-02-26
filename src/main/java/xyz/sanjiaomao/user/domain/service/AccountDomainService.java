@@ -26,9 +26,7 @@ public class AccountDomainService {
   @Transactional(rollbackFor = Exception.class)
   public ResultDTO registry(RegistryOpt opt){
     Account account = AccountFactory.create(opt);
-    if(!account.checkPassword(opt.getRePassword())){
-      return new ResultDTO("密码不一致",false);
-    }
+    assert !account.checkPassword(opt.getRePassword()):"密码不一致";
     AccountDAO dao = AccountFactory.create(account);
     accountRepository.save(dao);
     loginEvent(account);
@@ -39,16 +37,14 @@ public class AccountDomainService {
   public ResultDTO login(LoginOpt opt) {
     AccountDAO dao = accountRepository.findByAccount(opt.getAccount());
     Account account = AccountFactory.load(dao);
-    if(!account.checkPassword(opt.getPassword())){
-      return new ResultDTO("密码错误",false);
-    }
+    assert !account.checkPassword(opt.getPassword()):"密码错误";
     loginEvent(account);
     return new ResultDTO(true);
   }
 
 
   public void loginEvent(Account account){
-    applicationEventPublisher.publishEvent(new LoginEvent(account));
+    applicationEventPublisher.publishEvent(new LoginEvent<Account>(account));
   }
 
 

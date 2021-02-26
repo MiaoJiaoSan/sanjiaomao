@@ -3,6 +3,7 @@ package xyz.sanjiaomao.user.application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.sanjiaomao.shared.constant.Token;
 import xyz.sanjiaomao.shared.dto.AccountDTO;
 import xyz.sanjiaomao.shared.dto.ResultDTO;
@@ -39,6 +40,7 @@ public class AccountQryService {
     return new ResultDTO(exist?"":"账号已存在",exist);
   }
 
+  @Transactional(rollbackFor = Exception.class, readOnly = true)
   public AccountDTO findByAccount(String account){
     AccountDAO dao = accountRepository.findByAccount(account);
     return accountFactory.convertDTO(dao);
