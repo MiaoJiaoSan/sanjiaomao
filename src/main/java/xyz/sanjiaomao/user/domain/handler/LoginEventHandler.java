@@ -43,7 +43,6 @@ public class LoginEventHandler {
   private User loadUser(Account account) {
     UserDAO dao = userRepository.findByAccount(account.getAccount());
     return UserFactory.load(dao);
-
   }
 
 }

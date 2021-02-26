@@ -2,6 +2,7 @@ package xyz.sanjiaomao.user.infrastructure.factory;
 
 import org.mapstruct.Mapper;
 import xyz.sanjiaomao.shared.cmd.RegistryOpt;
+import xyz.sanjiaomao.shared.dto.AccountDTO;
 import xyz.sanjiaomao.user.domain.Account;
 import xyz.sanjiaomao.user.infrastructure.dao.AccountDAO;
 
@@ -25,4 +26,5 @@ public interface AccountFactory {
     return new Account(dao.getAccount(), dao.getPassword(), dao.getNickname(), null);
   }
 
+  AccountDTO convertDTO(AccountDAO dao);
 }
