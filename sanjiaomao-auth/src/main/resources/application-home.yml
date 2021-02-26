@@ -1,7 +1,0 @@
-spring:
-  redis:
-    host: localhost
-    port: 9736
-    database: 0
-    timeout: 3000ms
-    password: redis

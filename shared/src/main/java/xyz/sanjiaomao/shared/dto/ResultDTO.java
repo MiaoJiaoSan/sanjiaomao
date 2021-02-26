@@ -1,33 +1,21 @@
 package xyz.sanjiaomao.shared.dto;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-/**
- * <pre>
- *
- * </pre>
- *
- * @author 李宇飞
- * create by 2021-01-03 18:29
- */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ResultDTO<T> extends BaseDTO {
+public class ResultDTO {
 
-  private T result;
+  protected String message;
 
-  private ResultDTO(){
+  protected Boolean result;
 
-  }
-
-  public ResultDTO(T result){
+  public ResultDTO(Boolean result) {
+    this.message = "";
     this.result = result;
   }
 
-  public ResultDTO(T result, String msg){
+  public ResultDTO(String message, Boolean result) {
+    this.message = message;
     this.result = result;
-    this.message = msg;
   }
-
 }

@@ -3,6 +3,9 @@ package xyz.sanjiaomao.shared.snowflake;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 
+/**
+ * -DworkId=1
+ */
 public enum SnowflakeUtil {
 
   /**
