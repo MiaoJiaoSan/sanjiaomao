@@ -24,7 +24,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
   @Override
   public void save(Account account) {
-    AccountDO accountDO = AccountConvert.create(account);
+    AccountDO accountDO = AccountConvert.serialize(account);
     accountDAO.save(accountDO);
   }
 

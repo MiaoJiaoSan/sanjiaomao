@@ -8,7 +8,7 @@ import xyz.sanjiaomao.user.infrastructure.db.AccountDO;
 @Mapper(componentModel = "spring")
 public interface AccountConvert {
 
-  static AccountDO create(Account account) {
+  static AccountDO serialize(Account account) {
     AccountDO dao = new AccountDO();
     dao.setId(account.getId());
     dao.setUsername(account.getUsername());
