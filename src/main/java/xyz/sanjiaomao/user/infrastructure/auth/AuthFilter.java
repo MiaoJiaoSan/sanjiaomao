@@ -1,13 +1,11 @@
 package xyz.sanjiaomao.user.infrastructure.auth;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpRequest;
-import xyz.sanjiaomao.shared.constant.Token;
+import xyz.sanjiaomao.shared.constant.AuthConstant;
 import xyz.sanjiaomao.user.domain.Account;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,15 +27,15 @@ public class AuthFilter implements Filter {
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
     Cookie[] cookies = httpServletRequest.getCookies();
     Optional<String> optional = Arrays.stream(Optional.ofNullable(cookies).orElse(new Cookie[]{}))
-        .filter(cookie -> Objects.equals(cookie.getName(), Token.TOKEN)).map(Cookie::getValue).findFirst();
-    if(optional.isPresent()){
+        .filter(cookie -> Objects.equals(cookie.getName(), AuthConstant.TOKEN)).map(Cookie::getValue).findFirst();
+    if (optional.isPresent()) {
       String token = optional.get();
       Account account = accountRedisTemplate.opsForValue().get(token);
-      if(Objects.isNull(account) ){
+      if (Objects.isNull(account)) {
         publicURI(httpServletRequest, response, chain);
         return;
       }
-      accountRedisTemplate.expire(token,30L, TimeUnit.MINUTES);
+      accountRedisTemplate.expire(token, 30L, TimeUnit.MINUTES);
       chain.doFilter(httpServletRequest, response);
       return;
     }
@@ -46,7 +44,7 @@ public class AuthFilter implements Filter {
 
   private void publicURI(HttpServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     String uri = request.getRequestURI();
-    if(uri.startsWith(Token.ACCESS_URI)) {
+    if (uri.startsWith(AuthConstant.ACCESS_URI)) {
       chain.doFilter(request, response);
     }
   }

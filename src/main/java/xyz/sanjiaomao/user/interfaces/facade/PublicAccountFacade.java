@@ -2,13 +2,14 @@ package xyz.sanjiaomao.user.interfaces.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import xyz.sanjiaomao.shared.cmd.LoginOpt;
-import xyz.sanjiaomao.shared.cmd.RegistryOpt;
-import xyz.sanjiaomao.shared.dto.AccountDTO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import xyz.sanjiaomao.shared.cmd.LoginCmd;
+import xyz.sanjiaomao.shared.cmd.RegistryCmd;
 import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.user.application.AccountOptService;
-import xyz.sanjiaomao.user.application.AccountQryService;
 
 @RequestMapping("/public/account")
 @RestController
@@ -16,24 +17,20 @@ public class PublicAccountFacade {
 
   @Autowired
   private AccountOptService accountOptService;
-  @Autowired
-  private AccountQryService accountQryService;
 
 
-  @PostMapping("/registry")
-  public ResultDTO registry(@Validated @RequestBody RegistryOpt opt){
-    return accountOptService.registry(opt);
+  @PostMapping
+  public ResultDTO registry(@Validated @RequestBody RegistryCmd opt) {
+    accountOptService.accountRegistry(opt);
+    return new ResultDTO(true);
   }
 
   @PostMapping("/login")
-  public ResultDTO login(@Validated @RequestBody LoginOpt opt){
-    return accountOptService.login(opt);
+  public ResultDTO login(@Validated @RequestBody LoginCmd opt) {
+    accountOptService.accountLogin(opt);
+    return new ResultDTO(true);
   }
 
-  @GetMapping("/exist/{account}")
-  public ResultDTO exist(@PathVariable String account){
-    return accountQryService.exist(account);
-  }
 
 }
 

@@ -10,7 +10,10 @@ package xyz.sanjiaomao.shared.constant;
  */
 public interface AuthConstant {
 
-  String AUTHORIZATION = "authorization";
+
+  String TOKEN = "token";
+
+  String ACCESS_URI = "/public";
 
   String TOKEN_PREFIX = "token:";
 

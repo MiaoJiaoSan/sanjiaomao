@@ -14,7 +14,7 @@ import xyz.sanjiaomao.user.infrastructure.auth.AuthFilter;
 public class Configuration {
 
   @Bean
-  public RedisTemplate<String, Account> accountRedisTemplate(RedisConnectionFactory redisConnectionFactory){
+  public RedisTemplate<String, Account> accountRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
     RedisTemplate<String, Account> template = new RedisTemplate<>();
     template.setConnectionFactory(redisConnectionFactory);
     template.setKeySerializer(StringRedisSerializer.UTF_8);
@@ -22,14 +22,14 @@ public class Configuration {
   }
 
   @Bean
-  public FilterRegistrationBean<AuthFilter> filterRegistrationBean(AuthFilter authFilter){
+  public FilterRegistrationBean<AuthFilter> filterRegistrationBean(AuthFilter authFilter) {
     FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>(authFilter);
     registrationBean.setOrder(0);
     return registrationBean;
   }
 
   @Bean
-  public AuthFilter authFilter(RedisTemplate<String, Account> accountRedisTemplate){
+  public AuthFilter authFilter(RedisTemplate<String, Account> accountRedisTemplate) {
     return new AuthFilter(accountRedisTemplate);
   }
 }

@@ -1,5 +1,6 @@
 package xyz.sanjiaomao.user.domain;
 
+import cn.hutool.core.lang.Assert;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,29 +11,29 @@ public class Account implements Serializable {
 
   private static final long serialVersionUID = -1L;
 
-  private String account;
+  private Long id;
+
+  private String username;
 
   private String password;
 
   private String nickname;
 
-  private User user;
+  public Account(Long id) {
+    this.id = id;
+  }
 
-
-  public Account(String account) {
-    this.account = account;
+  public static Account newAccount(Long id, String username, String password, String nickname) {
+    Account accountDomain = new Account(id);
+    accountDomain.setUsername(username);
+    accountDomain.setPassword(password);
+    accountDomain.setNickname(nickname);
+    return accountDomain;
   }
 
 
-  public Account(String account, String password, String nickname, User user) {
-    this.account = account;
-    this.password = password;
-    this.nickname = nickname;
-    this.user = user;
-  }
-
-  public Boolean checkPassword(String rePassword){
-    return Objects.equals(this.password,rePassword);
+  public void checkPassword(String inputPassword, Account account) {
+    Assert.isTrue(Objects.equals(inputPassword, account.getPassword()), "密码不一致");
   }
 
 }
