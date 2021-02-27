@@ -1,6 +1,7 @@
 package xyz.sanjiaomao.user.infrastructure.db;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -9,11 +10,12 @@ import javax.persistence.*;
 public class UserDO {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "custom-uuid")
+  @GenericGenerator(name = "custom-uuid", strategy = "xyz.sanjiaomao.user.infrastructure.db.IdentifierGenerator")
   private Long id;
 
   @Column
-  private String account;
+  private Long accountId;
 
   @Column
   private String name;

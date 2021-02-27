@@ -35,12 +35,14 @@ public class LoginEventHandler {
   private HttpServletRequest request;
 
   @EventListener
-  public void handle(LoginEvent<Account> loginEvent) {
+  public void handle(LoginEvent<Account> event) {
+    Account account = event.getSource();
+    account.checkPassword(event.getPassword());
     Cookie[] cookies = request.getCookies();
     Optional<Cookie> optional = Arrays.stream(cookies).findFirst();
     String token = optional.isPresent()? optional.get().getValue():
         AuthConstant.TOKEN_PREFIX + IdUtil.simpleUUID();
-    store(token, loginEvent.getSource());
+    store(token, event.getSource());
   }
 
   private void store(String token, Account account) {

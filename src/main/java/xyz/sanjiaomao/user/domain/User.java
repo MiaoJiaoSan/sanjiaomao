@@ -1,5 +1,6 @@
 package xyz.sanjiaomao.user.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,10 +10,13 @@ import java.io.Serializable;
  * @author miaojiaosan
  */
 @Data
-@NoArgsConstructor
 public class User implements Serializable {
 
   private static final long serialVersionUID = -1L;
+
+  private Long id;
+
+  private Long accountId;
 
   private String name;
 
@@ -26,13 +30,21 @@ public class User implements Serializable {
 
   private String email;
 
+  public User(Long id) {
+    this.id = id;
+  }
 
-  public User(String name, Integer age, String gender, String idCard, String mobile, String email) {
-    this.name = name;
-    this.age = age;
-    this.gender = gender;
-    this.idCard = idCard;
-    this.mobile = mobile;
-    this.email = email;
+
+  public static User newUser(Long id, Long accountId, String name, Integer age, String gender, String idCard, String mobile, String email){
+    User user = new User(id);
+    user.setId(id);
+    user.setAccountId(accountId);
+    user.setName(name);
+    user.setAge(age);
+    user.setGender(gender);
+    user.setIdCard(idCard);
+    user.setMobile(mobile);
+    user.setEmail(email);
+    return user;
   }
 }

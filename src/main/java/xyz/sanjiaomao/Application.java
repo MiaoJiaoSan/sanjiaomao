@@ -2,6 +2,7 @@ package xyz.sanjiaomao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * <pre>
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author 李宇飞
  * create by 2021-02-26 22:43
  */
+@EnableAspectJAutoProxy
 @SpringBootApplication
 public class Application {
 

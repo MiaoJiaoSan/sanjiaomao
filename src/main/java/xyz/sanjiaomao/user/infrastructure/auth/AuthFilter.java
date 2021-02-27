@@ -36,6 +36,7 @@ public class AuthFilter implements Filter {
         return;
       }
       accountRedisTemplate.expire(token, 30L, TimeUnit.MINUTES);
+      AuthConstant.ACCOUNT_ID.set(account.getId());
       chain.doFilter(httpServletRequest, response);
       return;
     }

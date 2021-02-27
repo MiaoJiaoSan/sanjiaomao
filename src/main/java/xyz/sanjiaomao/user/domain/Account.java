@@ -32,8 +32,8 @@ public class Account implements Serializable {
   }
 
 
-  public void checkPassword(String inputPassword, Account account) {
-    Assert.isTrue(Objects.equals(inputPassword, account.getPassword()), "密码不一致");
+  public void checkPassword(String inputPassword) {
+    Assert.isTrue(Objects.equals(inputPassword, this.password), "密码不一致");
   }
 
 }

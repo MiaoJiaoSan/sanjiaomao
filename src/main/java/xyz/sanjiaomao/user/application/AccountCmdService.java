@@ -5,7 +5,7 @@ import cn.hutool.crypto.digest.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import xyz.sanjiaomao.shared.cmd.LoginCmd;
+import xyz.sanjiaomao.shared.cmd.LoginEventCmd;
 import xyz.sanjiaomao.shared.cmd.RegistryCmd;
 import xyz.sanjiaomao.shared.snowflake.SnowflakeUtil;
 import xyz.sanjiaomao.user.application.event.LoginEvent;
@@ -13,7 +13,7 @@ import xyz.sanjiaomao.user.domain.Account;
 import xyz.sanjiaomao.user.domain.repository.AccountRepository;
 
 @Service
-public class AccountOptService {
+public class AccountCmdService {
   @Autowired
   private AccountRepository accountRepository;
   @Autowired
@@ -25,15 +25,14 @@ public class AccountOptService {
     Account account = Account.newAccount(SnowflakeUtil.ACCOUNT.nextId(), cmd.getUsername(),
         encryption(cmd.getPassword()), cmd.getNickname());
 
-    account.checkPassword(encryption(cmd.getRePassword()), account);
+    account.checkPassword(encryption(cmd.getRePassword()));
     accountRepository.save(account);
-    applicationEventPublisher.publishEvent(new LoginEvent<Account>(account));
+    applicationEventPublisher.publishEvent(new LoginEvent<Account>(account, account.getPassword()));
   }
 
-  public void accountLogin(LoginCmd cmd) {
+  public void loginEvent(LoginEventCmd cmd) {
     Account account = accountRepository.findByUsername(cmd.getUsername());
-    account.checkPassword(encryption(cmd.getPassword()), account);
-    applicationEventPublisher.publishEvent(new LoginEvent<Account>(account));
+    applicationEventPublisher.publishEvent(new LoginEvent<Account>(account, encryption(cmd.getPassword())));
   }
 
 

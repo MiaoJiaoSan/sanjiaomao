@@ -14,5 +14,5 @@ public interface AccountRepository {
 
   void save(Account account);
 
-  Account findByUsername(String account);
+  Account findByUsername(String username);
 }

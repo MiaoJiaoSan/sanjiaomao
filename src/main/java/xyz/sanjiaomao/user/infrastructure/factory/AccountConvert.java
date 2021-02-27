@@ -5,6 +5,8 @@ import xyz.sanjiaomao.shared.dto.AccountDTO;
 import xyz.sanjiaomao.user.domain.Account;
 import xyz.sanjiaomao.user.infrastructure.db.AccountDO;
 
+import java.util.Objects;
+
 @Mapper(componentModel = "spring")
 public interface AccountConvert {
 
@@ -18,7 +20,8 @@ public interface AccountConvert {
   }
 
   static Account deserialize(AccountDO accountDO) {
-    return Account.newAccount(accountDO.getId(), accountDO.getUsername(), accountDO.getPassword(), accountDO.getNickname());
+    return Objects.isNull(accountDO)?null:
+     Account.newAccount(accountDO.getId(), accountDO.getUsername(), accountDO.getPassword(), accountDO.getNickname());
   }
 
   AccountDTO convertDTO(AccountDO dao);
