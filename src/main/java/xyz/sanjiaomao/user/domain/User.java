@@ -1,8 +1,6 @@
 package xyz.sanjiaomao.user.domain;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -35,7 +33,7 @@ public class User implements Serializable {
   }
 
 
-  public static User newUser(Long id, Long accountId, String name, Integer age, String gender, String idCard, String mobile, String email){
+  public static User newUser(Long id, Long accountId, String name, Integer age, String gender, String idCard, String mobile, String email) {
     User user = new User(id);
     user.setId(id);
     user.setAccountId(accountId);
@@ -46,5 +44,12 @@ public class User implements Serializable {
     user.setMobile(mobile);
     user.setEmail(email);
     return user;
+  }
+
+  public void modify(Integer age, String gender, String mobile, String email) {
+    this.age = age;
+    this.gender = gender;
+    this.mobile = mobile;
+    this.email = email;
   }
 }

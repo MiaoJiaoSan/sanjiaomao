@@ -37,7 +37,11 @@ public class AuthFilter implements Filter {
       }
       accountRedisTemplate.expire(token, 30L, TimeUnit.MINUTES);
       AuthConstant.ACCOUNT_ID.set(account.getId());
-      chain.doFilter(httpServletRequest, response);
+      try {
+        chain.doFilter(httpServletRequest, response);
+      } finally {
+        AuthConstant.ACCOUNT_ID.remove();
+      }
       return;
     }
     publicURI(httpServletRequest, response, chain);
@@ -47,6 +51,9 @@ public class AuthFilter implements Filter {
     String uri = request.getRequestURI();
     if (uri.startsWith(AuthConstant.ACCESS_URI)) {
       chain.doFilter(request, response);
+      return;
     }
+    request.getRequestDispatcher("/public/authentication").forward(request, response);
+
   }
 }

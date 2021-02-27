@@ -20,7 +20,7 @@ public class AccountCmdService {
   private ApplicationEventPublisher applicationEventPublisher;
 
   public void accountRegistry(RegistryCmd cmd) {
-    Assert.isNull(accountRepository.findByUsername(cmd.getUsername()),"用户名已存在");
+    Assert.isNull(accountRepository.findByUsername(cmd.getUsername()), "用户名已存在");
 
     Account account = Account.newAccount(SnowflakeUtil.ACCOUNT.nextId(), cmd.getUsername(),
         encryption(cmd.getPassword()), cmd.getNickname());

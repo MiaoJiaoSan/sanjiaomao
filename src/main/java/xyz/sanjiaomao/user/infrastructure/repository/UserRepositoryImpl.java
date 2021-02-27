@@ -8,6 +8,8 @@ import xyz.sanjiaomao.user.infrastructure.db.UserDAO;
 import xyz.sanjiaomao.user.infrastructure.db.UserDO;
 import xyz.sanjiaomao.user.infrastructure.factory.UserConvert;
 
+import java.util.Optional;
+
 /**
  * <pre>
  *
@@ -23,9 +25,15 @@ public class UserRepositoryImpl implements UserRepository {
   private UserDAO userDAO;
 
   @Override
-  public User findByAccountId(Long username){
+  public User findByAccountId(Long username) {
     UserDO userDO = userDAO.findByAccountId(username);
     return UserConvert.deserialize(userDO);
+  }
+
+  @Override
+  public User findById(Long id) {
+    Optional<UserDO> optional = userDAO.findById(id);
+    return UserConvert.deserialize(optional.orElse(null));
   }
 
   @Override

@@ -1,4 +1,4 @@
-package xyz.sanjiaomao.annotation;
+package xyz.sanjiaomao.shared.annotation;
 
 import java.lang.annotation.*;
 

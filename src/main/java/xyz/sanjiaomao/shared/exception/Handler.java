@@ -17,8 +17,8 @@ public class Handler {
 
 
   @ExceptionHandler(value = IllegalArgumentException.class)
-  public ResultDTO illegalArgumentException(IllegalArgumentException e){
-    return new ResultDTO(e.getMessage(),false);
+  public ResultDTO illegalArgumentException(IllegalArgumentException e) {
+    return new ResultDTO(e.getMessage(), false);
   }
 
 }

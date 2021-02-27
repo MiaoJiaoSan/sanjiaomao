@@ -20,8 +20,8 @@ public interface AccountConvert {
   }
 
   static Account deserialize(AccountDO accountDO) {
-    return Objects.isNull(accountDO)?null:
-     Account.newAccount(accountDO.getId(), accountDO.getUsername(), accountDO.getPassword(), accountDO.getNickname());
+    return Objects.isNull(accountDO) ? null :
+        Account.newAccount(accountDO.getId(), accountDO.getUsername(), accountDO.getPassword(), accountDO.getNickname());
   }
 
   AccountDTO convertDTO(AccountDO dao);

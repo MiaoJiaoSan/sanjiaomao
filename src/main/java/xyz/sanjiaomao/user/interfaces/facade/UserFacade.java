@@ -3,8 +3,9 @@ package xyz.sanjiaomao.user.interfaces.facade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xyz.sanjiaomao.annotation.Auth;
+import xyz.sanjiaomao.shared.annotation.Auth;
 import xyz.sanjiaomao.shared.cmd.AddUserCmd;
+import xyz.sanjiaomao.shared.cmd.ModifyUserCmd;
 import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.user.application.UserCmdService;
 
@@ -21,12 +22,19 @@ import xyz.sanjiaomao.user.application.UserCmdService;
 public class UserFacade {
 
   @Autowired
-  UserCmdService userCmdService;
+  private UserCmdService userCmdService;
 
   @Auth
   @PostMapping
-  public ResultDTO addUser(@Validated @RequestBody AddUserCmd cmd){
+  public ResultDTO addUser(@Validated @RequestBody AddUserCmd cmd) {
     userCmdService.addUser(cmd);
+    return new ResultDTO(true);
+  }
+
+  @Auth
+  @PutMapping("/{id}")
+  public ResultDTO modify(@PathVariable Long id, @Validated @RequestBody ModifyUserCmd cmd) {
+    userCmdService.modify(id, cmd);
     return new ResultDTO(true);
   }
 

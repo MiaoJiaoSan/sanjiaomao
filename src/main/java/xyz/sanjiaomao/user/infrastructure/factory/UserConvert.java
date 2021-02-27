@@ -17,21 +17,21 @@ import java.util.Objects;
 @Mapper(componentModel = "spring")
 public interface UserConvert {
 
- static UserDO serialize(User user){
-   UserDO userDO = new UserDO();
-   userDO.setId(user.getId());
-   userDO.setAccountId(user.getAccountId());
-   userDO.setName(user.getName());
-   userDO.setAge(user.getAge());
-   userDO.setGender(user.getGender());
-   userDO.setIdCard(user.getIdCard());
-   userDO.setMobile(user.getEmail());
-   userDO.setEmail(user.getEmail());
-   return userDO;
- }
+  static UserDO serialize(User user) {
+    UserDO userDO = new UserDO();
+    userDO.setId(user.getId());
+    userDO.setAccountId(user.getAccountId());
+    userDO.setName(user.getName());
+    userDO.setAge(user.getAge());
+    userDO.setGender(user.getGender());
+    userDO.setIdCard(user.getIdCard());
+    userDO.setMobile(user.getEmail());
+    userDO.setEmail(user.getEmail());
+    return userDO;
+  }
 
   static User deserialize(UserDO userDO) {
-    return Objects.isNull(userDO)?null:User.newUser(userDO.getId(),userDO.getAccountId(),
+    return Objects.isNull(userDO) ? null : User.newUser(userDO.getId(), userDO.getAccountId(),
         userDO.getName(), userDO.getAge(), userDO.getGender(), userDO.getIdCard(), userDO.getMobile(), userDO.getEmail());
   }
 }

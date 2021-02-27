@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationEvent;
 public class LoginEvent<T> extends ApplicationEvent {
 
   private final String password;
+
   /**
    * Create a new {@code ApplicationEvent}.
    *

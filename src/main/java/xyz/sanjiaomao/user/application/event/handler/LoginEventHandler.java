@@ -40,7 +40,7 @@ public class LoginEventHandler {
     account.checkPassword(event.getPassword());
     Cookie[] cookies = request.getCookies();
     Optional<Cookie> optional = Arrays.stream(cookies).findFirst();
-    String token = optional.isPresent()? optional.get().getValue():
+    String token = optional.isPresent() ? optional.get().getValue() :
         AuthConstant.TOKEN_PREFIX + IdUtil.simpleUUID();
     store(token, event.getSource());
   }
