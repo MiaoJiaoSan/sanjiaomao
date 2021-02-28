@@ -31,7 +31,7 @@ public interface UserConvert {
   }
 
   static User deserialize(UserDO userDO) {
-    return Objects.isNull(userDO) ? null : User.newUser(userDO.getId(), userDO.getAccountId(),
+    return User.newUser(userDO.getId(), userDO.getAccountId(),
         userDO.getName(), userDO.getAge(), userDO.getGender(), userDO.getIdCard(), userDO.getMobile(), userDO.getEmail());
   }
 }

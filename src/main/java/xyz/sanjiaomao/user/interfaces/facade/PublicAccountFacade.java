@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.sanjiaomao.shared.cmd.LoginEventCmd;
+import xyz.sanjiaomao.shared.cmd.AccountEventCmd;
 import xyz.sanjiaomao.shared.cmd.RegistryCmd;
 import xyz.sanjiaomao.shared.dto.ResultDTO;
 import xyz.sanjiaomao.user.application.AccountCmdService;
@@ -26,7 +26,7 @@ public class PublicAccountFacade {
   }
 
   @PostMapping("/login")
-  public ResultDTO loginEvent(@Validated @RequestBody LoginEventCmd cmd) {
+  public ResultDTO loginEvent(@Validated @RequestBody AccountEventCmd cmd) {
     accountCmdService.loginEvent(cmd);
     return new ResultDTO(true);
   }

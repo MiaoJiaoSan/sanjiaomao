@@ -1,10 +1,16 @@
-package xyz.sanjiaomao.user.application.event;
+package xyz.sanjiaomao.shared.event;
 
 import org.springframework.context.ApplicationEvent;
 
-public class LoginEvent<T> extends ApplicationEvent {
-
-  private final String password;
+/**
+ * <pre>
+ *
+ * </pre>
+ *
+ * @author 李宇飞
+ * create by 2021-02-28 02:01
+ */
+public abstract class Event<T> extends ApplicationEvent {
 
   /**
    * Create a new {@code ApplicationEvent}.
@@ -12,17 +18,12 @@ public class LoginEvent<T> extends ApplicationEvent {
    * @param source the object on which the event initially occurred or with
    *               which the event is associated (never {@code null})
    */
-  public LoginEvent(Object source, String password) {
+  public Event(Object source) {
     super(source);
-    this.password = password;
   }
 
   @Override
   public T getSource() {
     return (T) super.getSource();
-  }
-
-  public String getPassword() {
-    return password;
   }
 }

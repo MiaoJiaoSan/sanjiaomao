@@ -19,11 +19,11 @@ public enum SnowflakeUtil {
   /**
    * 角色
    */
-  ROLE(IdUtil.getSnowflake(Integer.parseInt(System.getProperty("workId")), 3)),
+  PLAN(IdUtil.getSnowflake(Integer.parseInt(System.getProperty("workId")), 3)),
   /**
    * 资源
    */
-  RESOURCE(IdUtil.getSnowflake(Integer.parseInt(System.getProperty("workId")), 4));
+  CARD(IdUtil.getSnowflake(Integer.parseInt(System.getProperty("workId")), 4));
 
   private Snowflake snowflake;
 

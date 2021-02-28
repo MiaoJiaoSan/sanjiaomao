@@ -6,7 +6,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import xyz.sanjiaomao.shared.constant.AuthConstant;
-import xyz.sanjiaomao.user.application.event.LoginEvent;
+import xyz.sanjiaomao.user.application.event.AccountEvent;
 import xyz.sanjiaomao.user.domain.Account;
 
 import javax.servlet.http.Cookie;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * create by 2021-02-27 14:48
  */
 @Component
-public class LoginEventHandler {
+public class AccountEventHandler {
 
   @Autowired
   private RedisTemplate<String, Account> accountRedisTemplate;
@@ -35,10 +35,10 @@ public class LoginEventHandler {
   private HttpServletRequest request;
 
   @EventListener
-  public void handle(LoginEvent<Account> event) {
+  public void handle(AccountEvent event) {
     Account account = event.getSource();
     account.checkPassword(event.getPassword());
-    Cookie[] cookies = request.getCookies();
+    Cookie[] cookies = Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]);
     Optional<Cookie> optional = Arrays.stream(cookies).findFirst();
     String token = optional.isPresent() ? optional.get().getValue() :
         AuthConstant.TOKEN_PREFIX + IdUtil.simpleUUID();

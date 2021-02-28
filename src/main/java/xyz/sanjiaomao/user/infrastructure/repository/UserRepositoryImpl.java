@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public User findById(Long id) {
     Optional<UserDO> optional = userDAO.findById(id);
-    return UserConvert.deserialize(optional.orElse(null));
+    return optional.map(UserConvert::deserialize).orElse(null);
   }
 
   @Override
